@@ -5,7 +5,7 @@ const port = process.env.PORT || 5000;
 const cors = require("cors");
 const helmet = require("helmet");
 const usersRouter = require("./routes/users.routes.js");
-
+const categoriesRouter = require("./routes/categories.routes");
 const productsRouter = require("./routes/products.routes.js");
 
 const { ERROR } = require("./utils/httpStatusText.js");
@@ -24,6 +24,7 @@ app.use(cors());
 app.use(helmet());
 
 app.use("/api/users", usersRouter);
+app.use("/api/categories", categoriesRouter);
 app.use("/api/products", productsRouter);
 
 // global middleware for Not Found router
