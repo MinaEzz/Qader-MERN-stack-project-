@@ -12,7 +12,7 @@ const signUp = async (req, res, next) => {
   }
 
   const body = req.body;
-  const createdUser = new User(body);
+  const createdUser = new User({ ...body, image: null });
   try {
     const hasUser = await User.findOne({
       $or: [{ email: body.email }, { phoneNumber: body.phoneNumber }],
@@ -24,7 +24,7 @@ const signUp = async (req, res, next) => {
         error.code = 400;
         return next(error);
       }
-      createdUser.save();
+      await createdUser.save();
       res.status(201).json({ status: SUCCESS, data: { user: createdUser } });
     } else {
       const error = new Error("User Is Already Exist, Please Login Instead.");
@@ -35,7 +35,7 @@ const signUp = async (req, res, next) => {
   } catch (err) {
     const error = new Error(err.message);
     error.status = ERROR;
-    error.code = 400;
+    error.code = 500;
     return next(error);
   }
 };
@@ -59,7 +59,10 @@ const login = async (req, res, next) => {
       error.code = 401;
       return next(error);
     }
-    res.status(200).json({ status: SUCCESS, message: "Login Succefully !" });
+    res.status(200).json({
+      status: SUCCESS,
+      data: { user: identifiedUser },
+    });
   } catch (err) {
     const error = new Error(err.message);
     error.status = ERROR;

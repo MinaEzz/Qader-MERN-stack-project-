@@ -1,3 +1,6 @@
+import { GrSend } from "react-icons/gr";
+import { Button } from "..";
+
 import Input from "../shared/Input";
 
 const ContactForm = () => {
@@ -45,12 +48,12 @@ const ContactForm = () => {
         placeholder="Leave Your Message..."
         className="w-full h-10 bg-transparent flex-1 outline-none text-base text-neutral-700 font-medium placeholder:text-neutral-500 p-2 placeholder:text-base placeholder:font-medium border border-primary-600 rounded-xl"
       />
-      <button
-        type="submit"
-        className="w-52 mx-auto h-14  rounded-xl bg-primary-600 hover:bg-primary-700 active:bg-primary-800 transition-all text-2xl capitalize font-bold text-white"
-      >
-        submit
-      </button>
+      <Button
+        type={"submit"}
+        label={"send"}
+        icon={<GrSend fontSize={28} color="white" />}
+        fontWeight={"font-semibold"}
+      />
     </form>
   );
 };

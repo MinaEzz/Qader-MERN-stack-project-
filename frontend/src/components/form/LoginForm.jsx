@@ -6,9 +6,13 @@ import { AuthContext } from "../../context/auth-context";
 import Loader from "./../shared/Loader";
 import { validateLoginForm } from "../../utils/validation";
 import "react-toastify/dist/ReactToastify.css";
+import { Button } from "..";
+import { ThemeContext } from "../../context/theme-context";
 
 const LoginForm = ({ setOpenModal }) => {
   const auth = useContext(AuthContext);
+  const { isDark } = useContext(ThemeContext);
+
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     identifier: "", // This can be username, email, or phone number
@@ -36,21 +40,15 @@ const LoginForm = ({ setOpenModal }) => {
       const responseData = await response.json();
       if (response.ok) {
         console.log(responseData);
-        toast.success("User login successfully", {
-          theme: "colored",
-        });
-        auth.login();
+        toast.success("User login successfully");
+        auth.login(responseData.data.user._id, responseData.data.user.name);
       } else {
         console.log(responseData);
-        toast.error(responseData.message, {
-          theme: "colored",
-        });
+        toast.error(responseData.message);
       }
     } catch (err) {
       console.log(err);
-      toast.error(err.message || "Something Went Wrong, Please Try Again.", {
-        theme: "colored",
-      });
+      toast.error(err.message || "Something Went Wrong, Please Try Again.");
     } finally {
       setIsLoading(false);
     }
@@ -58,7 +56,7 @@ const LoginForm = ({ setOpenModal }) => {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer theme={isDark ? "dark" : "light" || "colored"} />
       {isLoading ? (
         <Loader />
       ) : (
@@ -70,7 +68,7 @@ const LoginForm = ({ setOpenModal }) => {
         >
           <div className="relative border border-primary-600 rounded-xl">
             <FaUser
-              className="absolute top-1/2 -translate-y-1/2 left-2  text-neutral-700"
+              className="absolute top-1/2 -translate-y-1/2 left-2  text-neutral-600 dark:text-neutral-200"
               fontSize={18}
               style={{ pointerEvents: "none" }}
             />
@@ -80,12 +78,12 @@ const LoginForm = ({ setOpenModal }) => {
               placeholder="Username"
               onChange={handleChange}
               value={formData.identifier}
-              className="w-full h-10 outline-none text-base font-medium text-neutral-700 dark:text-neutral-500 rounded-xl placeholder:text-neutral-500 py-2 pl-8 pr-10 placeholder:text-base placeholder:font-medium bg-transparent"
+              className="w-full h-10 outline-none text-base font-medium text-neutral-600 dark:text-neutral-200 rounded-xl placeholder:text-neutral-600 dark:placeholder:text-neutral-200 py-2 pl-8 pr-10 placeholder:text-base placeholder:font-medium bg-transparent"
             />
           </div>
           <div className="relative border border-primary-600 rounded-xl">
             <FaLock
-              className="absolute top-1/2 -translate-y-1/2 left-2  text-neutral-700"
+              className="absolute top-1/2 -translate-y-1/2 left-2  text-neutral-600 dark:text-neutral-200"
               fontSize={18}
               style={{ pointerEvents: "none" }}
             />
@@ -95,21 +93,21 @@ const LoginForm = ({ setOpenModal }) => {
               placeholder="Password"
               onChange={handleChange}
               value={formData.password}
-              className="w-full h-10 outline-none text-base font-medium text-neutral-700 dark:text-neutral-500 rounded-xl placeholder:text-neutral-500 py-2 pl-8 pr-10 placeholder:text-base placeholder:font-medium bg-transparent"
+              className="w-full h-10 outline-none text-base font-medium text-neutral-600 dark:text-neutral-200 rounded-xl placeholder:text-neutral-600 dark:placeholder:text-neutral-200 py-2 pl-8 pr-10 placeholder:text-base placeholder:font-medium bg-transparent"
             />
           </div>
           <p
-            className="text-neutral-700 dark:text-neutral-500 capitalize font-medium text-lg cursor-pointer w-fit"
+            className="text-neutral-600 dark:text-neutral-200 capitalize font-medium text-lg cursor-pointer w-fit"
             onClick={() => setOpenModal(true)}
           >
             forget password?
           </p>
-          <button
-            type="submit"
-            className="w-full h-14 flex items-center justify-center gap-1 rounded-xl bg-primary-600 hover:bg-primary-700 active:bg-primary-800 transition-all text-2xl capitalize font-bold text-white"
-          >
-            login <LuLogIn fontSize={28} color="white" />
-          </button>
+          <Button
+            type={"submit"}
+            label={"login"}
+            fontWeight={"font-semibold"}
+            icon={<LuLogIn fontSize={28} color="white" />}
+          />
         </form>
       )}
     </>

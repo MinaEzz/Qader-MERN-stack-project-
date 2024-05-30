@@ -4,7 +4,10 @@ require("dotenv").config();
 const port = process.env.PORT || 5000;
 const cors = require("cors");
 const helmet = require("helmet");
-const usersRouter = require("./routes/users.routes");
+const usersRouter = require("./routes/users.routes.js");
+
+const productsRouter = require("./routes/products.routes.js");
+
 const { ERROR } = require("./utils/httpStatusText.js");
 
 const mongoose = require("mongoose");
@@ -21,14 +24,14 @@ app.use(cors());
 app.use(helmet());
 
 app.use("/api/users", usersRouter);
+app.use("/api/products", productsRouter);
 
 // global middleware for Not Found router
 app.all("*", (req, res, next) => {
-  res.json(
-    res
-      .status(404)
-      .json({ status: ERROR, message: "This Resource Is Not Available" })
-  );
+  const error = new Error("This Resource Is Not Available");
+  error.status = ERROR;
+  error.code = 404;
+  return next(error);
 });
 // Default Error Handler
 app.use((error, req, res, next) => {

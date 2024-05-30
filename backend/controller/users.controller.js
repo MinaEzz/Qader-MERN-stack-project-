@@ -1,73 +1,93 @@
 const { SUCCESS, FAIL, ERROR } = require("../utils/httpStatusText");
 const User = require("../models/user.model");
 
-const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find({}, { password: 0 });
     if (!users || users.length === 0) {
-      return res
-        .status(404)
-        .json({ status: FAIL, data: null, message: "No Users Found!" });
+      const error = new Error("No Users Found.");
+      error.status = FAIL;
+      error.code = 404;
+      return next(error);
     }
     res.status(200).json({ status: SUCCESS, data: { users } });
-  } catch (error) {
-    res
-      .status(400)
-      .json({ status: ERROR, data: null, msg: error.message, code: 400 });
+  } catch (err) {
+    const error = new Error(err.message);
+    error.status = ERROR;
+    error.code = 500;
+    return next(error);
   }
 };
 
-const getUserById = async (req, res) => {
+const getUserById = async (req, res, next) => {
   const { userId } = req.params;
   try {
-    const matchedUser = await User.findById(userId);
+    const matchedUser = await User.findOne({ _id: userId });
     if (!matchedUser) {
-      return res.status(404).json({ status: FAIL, data: null });
+      const error = new Error("User Not Found.");
+      error.status = FAIL;
+      error.code = 404;
+      return next(error);
     }
     res.status(200).json({ status: SUCCESS, data: { user: matchedUser } });
-  } catch (error) {
-    res
-      .status(400)
-      .json({ status: ERROR, data: null, msg: error.message, code: 400 });
+  } catch (err) {
+    const error = new Error(err.message);
+    error.status = ERROR;
+    error.code = 500;
+    return next(error);
   }
 };
 
-// const updateUser = async (req, res) => {
-//   const { userId } = req.params;
-//   const body = req.body;
-//   try {
-//     let updatedUser = await user.updateOne(
-//       { _id: userId },
-//       { $set: { ...body } }
-//     );
-//     res.status(200).json({ status: SUCCESS, data: { user: updatedUser } });
-//   } catch (error) {
-//     res
-//       .status(400)
-//       .json({ status: ERROR, data: null, msg: error.message, code: 400 });
-//   }
-// };
+const updateUser = async (req, res, next) => {
+  const { userId } = req.params;
+  const body = req.body;
+  try {
+    let updatedUser = await User.findByIdAndUpdate(userId, {
+      $set: { ...body },
+    });
+    if (!updatedUser) {
+      const error = new Error("User Not Found.");
+      error.status = FAIL;
+      error.code = 404;
+      return next(error);
+    }
+    res.status(200).json({ status: SUCCESS, data: { user: updatedUser } });
+  } catch (err) {
+    const error = new Error(err.message);
+    error.status = ERROR;
+    error.code = 500;
+    return next(error);
+  }
+};
 
-// const deleteUser = async (req, res) => {
-//   const { userId } = req.params;
-//   try {
-//     await user.deleteOne({ _id: userId });
-//     res.status(200).json({ status: SUCCESS, data: null });
-//   } catch (error) {
-//     res
-//       .status(400)
-//       .json({ status: ERROR, data: null, msg: error.message, code: 400 });
-//   }
-// };
+const deleteUser = async (req, res, next) => {
+  const { userId } = req.params;
+  try {
+    const deletedUser = await User.findByIdAndDelete(userId);
+    if (!deletedUser) {
+      const error = new Error("User Not Found.");
+      error.status = FAIL;
+      error.code = 404;
+      return next(error);
+    }
+    res.status(200).json({ status: SUCCESS, data: { user: deletedUser } });
+  } catch (err) {
+    const error = new Error(err.message);
+    error.status = ERROR;
+    error.code = 500;
+    return next(error);
+  }
+};
 
-const deleteAllUsers = async (req, res) => {
+const deleteAllUsers = async (req, res, next) => {
   try {
     await User.deleteMany();
     res.status(200).json({ status: SUCCESS, data: null });
-  } catch (error) {
-    res
-      .status(400)
-      .json({ status: ERROR, data: null, msg: error.message, code: 400 });
+  } catch (err) {
+    const error = new Error(err.message);
+    error.status = ERROR;
+    error.code = 500;
+    return next(error);
   }
 };
 
@@ -75,4 +95,6 @@ module.exports = {
   getAllUsers,
   getUserById,
   deleteAllUsers,
+  updateUser,
+  deleteUser,
 };

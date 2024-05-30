@@ -207,15 +207,15 @@ export const FOOTER_CATEGORIES = [
 export const FOR_USERS = [
   {
     title: "login",
-    url: "/login",
+    url: "/authentication",
   },
   {
     title: "regist",
-    url: "regist",
+    url: "/authentication",
   },
   {
     title: "profile",
-    url: "/profile",
+    url: "/profile/:userId",
   },
 ];
 // regist form constants

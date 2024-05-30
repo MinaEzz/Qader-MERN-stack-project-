@@ -3,9 +3,7 @@ import { Loader } from "../components";
 const CartPage = () => {
   return (
     <section className="min-h-[100dvh] pd-y">
-      <div className="container">
-        <Loader />
-      </div>
+      <div className="container">cart page</div>
     </section>
   );
 };

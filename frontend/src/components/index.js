@@ -29,6 +29,7 @@ import JobAccordionCard from "./jobs/JobAccordionCard";
 import EditProfileModal from "./form/EditProfileModal";
 import ProfileInfo from "./profile/ProfileInfo";
 import Loader from "./shared/Loader";
+import { DeleteAccountModal } from "./profile/DeleteAccountModal";
 export {
   Header,
   Navbar,
@@ -61,4 +62,5 @@ export {
   EditProfileModal,
   ProfileInfo,
   Loader,
+  DeleteAccountModal,
 };

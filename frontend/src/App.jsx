@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { AuthContext } from "./context/auth-context";
 import {
   BrowserRouter as Router,
@@ -23,11 +23,14 @@ import {
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const login = useCallback(() => {
+  const [userId, setUserId] = useState(null);
+  const login = useCallback((uid) => {
     setIsLoggedIn(true);
+    setUserId(uid);
   }, []);
   const logout = useCallback(() => {
     setIsLoggedIn(false);
+    setUserId(null);
   }, []);
 
   let routes;
@@ -46,7 +49,7 @@ const App = () => {
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/authentication" element={<Navigate to="/" />} />
         <Route path="/jobs" element={<JobsPage />} />
-        <Route path="/profile" element={<UserProfilePage />} />
+        <Route path="/profile/:userId" element={<UserProfilePage />} />
         <Route path="/cart" element={<CartPage />} />
       </>
     );
@@ -65,53 +68,27 @@ const App = () => {
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/authentication" element={<AuthenticationPage />} />
         <Route path="/jobs" element={<JobsPage />} />
-        <Route path="/profile" element={<Navigate to="/authentication" />} />
+        <Route
+          path="/profile/:userId"
+          element={<Navigate to="/authentication" />}
+        />
         <Route path="/cart" element={<Navigate to="/authentication" />} />
       </>
     );
   }
 
-  const [isDark, setIsDark] = useState(false);
-  // theme vars
-  const userTheme = localStorage.getItem("theme");
-  const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  // initial theme check
-  const themeCheck = () => {
-    if (userTheme === "dark" || (!userTheme && systemTheme)) {
-      document.documentElement.classList.add("dark");
-      setIsDark(true);
-      return;
-    }
-  };
-  // manual theme switch
-  const themeSwitch = () => {
-    if (document.documentElement.classList.contains("dark")) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-      setIsDark(false);
-    } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-      setIsDark(true);
-    }
-  };
-  useEffect(() => {
-    themeCheck();
-  }, []);
-
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
+      value={{
+        isLoggedIn: isLoggedIn,
+        userId: userId,
+        login: login,
+        logout: logout,
+      }}
     >
       <main className="bg-neutral-100 dark:bg-slate-950 overflow-clip relative">
         <Router>
-          <Header
-            isDark={isDark}
-            setIsDark={setIsDark}
-            userTheme={userTheme}
-            systemTheme={systemTheme}
-            themeSwitch={themeSwitch}
-          />
+          <Header />
           <Navbar />
           <Routes>
             {routes}

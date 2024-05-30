@@ -1,14 +1,17 @@
 import { useState, useContext } from "react";
-import Input from "../shared/Input";
-import { TYPESOFDISABILITY } from "../../constants";
-import { ToastContainer, toast } from "react-toastify";
+import { ThemeContext } from "../../context/theme-context";
 import { AuthContext } from "../../context/auth-context";
+import { TYPESOFDISABILITY } from "../../constants";
+import Input from "../shared/Input";
 import Loader from "../shared/Loader";
+import { Button } from "..";
 import { validateRegisterForm } from "../../utils/validation";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const RegistForm = () => {
   const auth = useContext(AuthContext);
+  const { isDark } = useContext(ThemeContext);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -54,7 +57,9 @@ const RegistForm = () => {
   };
   // Handle dateOfBirth change
   const handleDateOfBirthChange = (e) => {
-    const newDateOfBirth = e.target.value;
+    const newDateOfBirth = new Date(e.target.value)
+      .toISOString()
+      .substring(0, 10);
     setFormData((prevData) => ({
       ...prevData,
       birthDate: newDateOfBirth,
@@ -76,21 +81,15 @@ const RegistForm = () => {
       const responseData = await response.json();
       if (response.ok) {
         console.log(responseData);
-        toast.success("User registered successfully", {
-          theme: "colored",
-        });
-        auth.login();
+        toast.success("User registered successfully");
+        auth.login(responseData.data.user._id, responseData.data.user.name);
       } else {
         console.log(responseData);
-        toast.error(responseData.message, {
-          theme: "colored",
-        });
+        toast.error(responseData.message);
       }
     } catch (err) {
       console.log(err);
-      toast.error(err.message || "Something Went Wrong, Please Try Again.", {
-        theme: "colored",
-      });
+      toast.error(err.message || "Something Went Wrong, Please Try Again.");
     } finally {
       setIsLoading(false);
     }
@@ -98,7 +97,7 @@ const RegistForm = () => {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer theme={isDark ? "dark" : "light" || "colored"} />
       {isLoading ? (
         <Loader />
       ) : (
@@ -168,7 +167,7 @@ const RegistForm = () => {
           <select
             name="disabilityType"
             id="typeOfDisability"
-            className="w-full h-10 p-2 outline-none rounded-xl border border-primary-600 capitalize text-base text-neutral-700 dark:text-neutral-500 font-medium bg-transparent"
+            className="w-full h-10 p-2 outline-none rounded-xl border border-primary-600 capitalize text-base text-neutral-600 dark:text-neutral-200 font-medium bg-transparent"
             defaultValue="select disability type"
             onChange={(e) =>
               setFormData({ ...formData, disabilityType: e.target.value })
@@ -177,7 +176,7 @@ const RegistForm = () => {
             <option
               value="select disability type"
               disabled
-              className="capitalize text-base font-medium text-neutral-500 "
+              className="capitalize text-base font-medium text-neutral-600 "
             >
               select disability type
             </option>
@@ -196,7 +195,7 @@ const RegistForm = () => {
           {/* basic info */}
           <div className="w-full flex gap-1 max-md:flex-col md:items-center md:gap-3">
             <label
-              className="text-lg capitalize text-neutral-600"
+              className="text-lg capitalize text-neutral-600 dark:text-neutral-200"
               htmlFor="gender"
             >
               select your gender
@@ -253,7 +252,7 @@ const RegistForm = () => {
           {/* gender */}
           <div className="w-full flex justify-between gap-1 max-md:flex-col md:items-center md:gap-2">
             <label
-              className="text-lg capitalize text-neutral-600"
+              className="text-lg capitalize text-neutral-600 dark:text-neutral-200"
               htmlFor="dateOfBirth"
             >
               enter your birth date
@@ -268,12 +267,11 @@ const RegistForm = () => {
             />
           </div>
           {/* birthdate */}
-          <button
-            type="submit"
-            className="w-full h-14 rounded-xl bg-primary-600 hover:bg-primary-700 active:bg-primary-800 transition-all text-2xl capitalize font-bold text-white"
-          >
-            register now
-          </button>
+          <Button
+            type={"submit"}
+            label={"register now"}
+            fontWeight={"font-semibold"}
+          />
         </form>
       )}
     </>

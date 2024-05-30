@@ -10,6 +10,7 @@ const LandingButton = ({
   width,
   height,
   fontSize,
+  fontWeight,
   backgroundColor,
   hoverBgColor,
   activeBgColor,
@@ -25,7 +26,7 @@ const LandingButton = ({
           : "bg-primary-600 hover:bg-primary-700 active:bg-primary-800"
       } ${hoverBgColor ? hoverBgColor : null} ${
         activeBgColor ? activeBgColor : null
-      } rounded-xl px-2 transition-all`}
+      } ${fontWeight ? fontWeight : null} rounded-xl px-2 transition-all`}
       >
         <a
           className={`flex items-center justify-center space-x-2 ${
@@ -50,7 +51,7 @@ const LandingButton = ({
             : "bg-primary-600 hover:bg-primary-700 active:bg-primary-800"
         } ${hoverBgColor ? hoverBgColor : null} ${
           activeBgColor ? activeBgColor : null
-        } rounded-xl px-2 transition-all`}
+        } ${fontWeight ? fontWeight : null} rounded-xl px-2 transition-all`}
       >
         <Link
           className={`flex items-center justify-center space-x-2 ${
@@ -77,7 +78,9 @@ const LandingButton = ({
         activeBgColor ? activeBgColor : null
       } 
       rounded-xl px-2 transition-all flex items-center justify-center space-x-2 
-      ${fontSize ? fontSize : "text-2xl"} capitalize text-white`}
+      ${fontSize ? fontSize : "text-2xl"} ${
+        fontWeight ? fontWeight : null
+      } capitalize text-white`}
       type={type}
       onClick={onClick}
     >

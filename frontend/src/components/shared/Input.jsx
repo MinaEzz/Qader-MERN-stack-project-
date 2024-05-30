@@ -19,7 +19,7 @@ const Input = ({
       value={value}
       className={`${width ? width : "w-full"} ${
         height ? height : "h-10"
-      } bg-transparent flex-1 outline-none text-base text-neutral-700 dark:text-neutral-500 font-medium placeholder:text-neutral-500 p-2 placeholder:text-base placeholder:font-medium border border-primary-600 rounded-xl`}
+      } bg-transparent flex-1 outline-none text-base text-neutral-600 dark:text-neutral-200 font-medium placeholder:text-neutral-600 dark:placeholder:text-neutral-200 p-2 placeholder:text-base placeholder:font-medium border border-primary-600 rounded-xl`}
       onChange={onChange}
       aria-labelledby={name}
     />
@@ -31,7 +31,7 @@ const Input = ({
       placeholder={placeholder}
       className={`${width ? width : "w-full"} ${
         height ? height : "h-10"
-      } bg-transparent flex-1 outline-none text-base text-neutral-700 dark:text-neutral-500 font-medium placeholder:text-neutral-500 p-2 placeholder:text-base placeholder:font-medium border border-primary-600 rounded-xl`}
+      } bg-transparent flex-1 outline-none text-base text-neutral-600 dark:text-neutral-200 font-medium placeholder:text-neutral-500 p-2 placeholder:text-base placeholder:font-medium border border-primary-600 rounded-xl`}
       value={value}
       onChange={onChange}
     />
