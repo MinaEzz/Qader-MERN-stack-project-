@@ -3,7 +3,7 @@ import { FaPlus } from "react-icons/fa6";
 
 const ProductCard = ({ ...product }) => {
   return (
-    <li className="w-[250px] bg-white dark:bg-slate-900 shadow-lg hover:shadow-2xl transition-all p-4 rounded-xl flex flex-col gap-4">
+    <li className="w-[250px] min-h-[520px] bg-white dark:bg-slate-900 shadow-lg hover:shadow-2xl transition-all p-4 rounded-xl flex flex-col justify-between gap-4">
       <div className="flex justify-between items-center">
         <b className="bg-slate-600 rounded-xl py-1 px-2 text-white text-sm">
           ${product?.price}

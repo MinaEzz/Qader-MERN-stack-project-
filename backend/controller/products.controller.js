@@ -20,7 +20,7 @@ const Category = require("../models/category.model");
 //   }
 // };
 
-const getAllProducts = async (req, res, next) => {
+const getProducts = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1; // Default to page 1 if not specified
   const limit = parseInt(req.query.limit) || 24; // Default to 24 items per page if not specified
   const skip = (page - 1) * limit;
@@ -76,12 +76,31 @@ const addProduct = async (req, res, next) => {
   }
 };
 
-const getProductsByCategoryId = (req, res, next) => {};
+const getProductById = async (req, res, next) => {
+  const { productId } = req.params;
+  try {
+    const matchedProduct = await Product.findOne({ _id: productId });
+    if (!matchedProduct) {
+      const error = new Error("Product Not Found.");
+      error.status = FAIL;
+      error.code = 404;
+      return next(error);
+    }
+    res
+      .status(200)
+      .json({ status: SUCCESS, data: { product: matchedProduct } });
+  } catch (err) {
+    const error = new Error(err.message);
+    error.status = ERROR;
+    error.code = 500;
+    return next(error);
+  }
+};
 
 module.exports = {
-  getAllProducts,
+  getProducts,
   //   getProductsByCategoryId,
-  //   getProductById,
+  getProductById,
   addProduct,
   //   updateProduct,
   //   deleteProduct,

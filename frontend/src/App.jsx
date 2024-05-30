@@ -40,10 +40,10 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route
-          path="/products/:categoryID/:categoryTITLE"
+          path="/products/:categoryId/:categoryTITLE"
           element={<ProductsPage />}
         />
-        <Route path="/products/:productID" element={<ProductDetailsPage />} />
+        <Route path="/products/:productId" element={<ProductDetailsPage />} />
         <Route path="/search/:searchTerm" element={<SearchPage />} />
         <Route path="/about-us" element={<AboutPage />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
@@ -59,10 +59,10 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route
-          path="/products/:categoryID/:categoryTITLE"
+          path="/products/:categoryId/:categoryTITLE"
           element={<ProductsPage />}
         />
-        <Route path="/products/:productID" element={<ProductDetailsPage />} />
+        <Route path="/products/:productId" element={<ProductDetailsPage />} />
         <Route path="/search/:searchTerm" element={<SearchPage />} />
         <Route path="/about-us" element={<AboutPage />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
