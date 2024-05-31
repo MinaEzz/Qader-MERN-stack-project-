@@ -63,7 +63,7 @@ const ProductDetailsPage = () => {
                     {product?.title}
                   </h3>
                   <ProductRates stars={product?.rate} />
-                  <p className="text-stone-600 text-base">
+                  <p className="text-stone-600 dark:text-stone-200 text-base">
                     {product?.description}
                   </p>
                   <p className="text-primary-600 font-bold text-xl">

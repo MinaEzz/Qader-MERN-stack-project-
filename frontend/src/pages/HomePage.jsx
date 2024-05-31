@@ -27,10 +27,6 @@ const HomePage = () => {
               title="popular products"
               products={RECCOMENDED_PRODUCTS}
             />
-            <ProductSlider
-              title="ay 7aga products"
-              products={RECCOMENDED_PRODUCTS}
-            />
           </section>
         </div>
       </section>

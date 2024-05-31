@@ -24,11 +24,16 @@ const getProducts = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1; // Default to page 1 if not specified
   const limit = parseInt(req.query.limit) || 24; // Default to 24 items per page if not specified
   const skip = (page - 1) * limit;
+  const { categoryId } = req.query;
 
   try {
-    const totalProducts = await Product.countDocuments();
+    let filter = {};
+    if (categoryId) {
+      filter.category = categoryId;
+    }
+    const totalProducts = await Product.countDocuments(filter);
     const totalPages = Math.ceil(totalProducts / limit);
-    const products = await Product.find().skip(skip).limit(limit);
+    const products = await Product.find(filter).skip(skip).limit(limit);
 
     if (!products || products.length === 0) {
       const error = new Error("No Products Found.");
@@ -97,11 +102,38 @@ const getProductById = async (req, res, next) => {
   }
 };
 
+const searchProduct = async (req, res, next) => {
+  const { searchTerm } = req.params;
+  try {
+    // Use a regular expression to perform a case-insensitive search
+    const searchRegex = new RegExp(searchTerm, "i");
+    const filter = {
+      $or: [
+        { title: { $regex: searchRegex } },
+        { description: { $regex: searchRegex } },
+      ],
+    };
+    const products = await Product.find(filter);
+    if (!products || products.length === 0) {
+      const error = new Error("No Products Found Matches Your Search Term.");
+      error.status = FAIL;
+      error.code = 404;
+      return next(error);
+    }
+    res.status(200).json({ status: SUCCESS, data: { products } });
+  } catch (err) {
+    const error = new Error(err.message);
+    error.status = ERROR;
+    error.code = 500;
+    return next(error);
+  }
+};
+
 module.exports = {
   getProducts,
-  //   getProductsByCategoryId,
   getProductById,
   addProduct,
+  searchProduct,
   //   updateProduct,
   //   deleteProduct,
 };

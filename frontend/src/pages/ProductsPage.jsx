@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ProductsPage = () => {
-  const { categoryID, categoryTITLE } = useParams();
+  const { categoryId, categoryTITLE } = useParams();
   const [products, setProducts] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,7 +15,9 @@ const ProductsPage = () => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:5000/api/products?page=${pageNumber}&limit=20`
+        `http://localhost:5000/api/products?page=${pageNumber}&limit=20${
+          categoryId ? "&categoryId=" + categoryId : ""
+        }`
       );
       const responseData = await response.json();
       if (response.ok) {
@@ -38,7 +40,9 @@ const ProductsPage = () => {
 
   useEffect(() => {
     document.title = `${
-      categoryTITLE ? `Products Of ${categoryTITLE}` : "Our Products"
+      categoryTITLE
+        ? `Products Of ${categoryTITLE.toUpperCase()}`
+        : "Our Products"
     }`;
     fetchProducts();
     window.scrollTo(0, 0);
