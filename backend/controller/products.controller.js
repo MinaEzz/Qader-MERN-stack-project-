@@ -2,27 +2,27 @@ const { SUCCESS, ERROR, FAIL } = require("../utils/httpStatusText");
 const Product = require("../models/product.model");
 const Category = require("../models/category.model");
 
-// const getAllProducts = async (req, res, next) => {
-//   try {
-//     const products = await Product.find();
-//     if (!products || products.length === 0) {
-//       const error = new Error("No Products Found.");
-//       error.status = FAIL;
-//       error.code = 404;
-//       return next(error);
-//     }
-//     res.status(200).json({ status: SUCCESS, data: { products } });
-//   } catch (err) {
-//     const error = new Error(err.message);
-//     error.status = ERROR;
-//     error.code = 500;
-//     return next(error);
-//   }
-// };
+const getAllProducts = async (req, res, next) => {
+  try {
+    const products = await Product.find();
+    if (!products || products.length === 0) {
+      const error = new Error("No Products Found.");
+      error.status = FAIL;
+      error.code = 404;
+      return next(error);
+    }
+    res.status(200).json({ status: SUCCESS, data: { products } });
+  } catch (err) {
+    const error = new Error(err.message);
+    error.status = ERROR;
+    error.code = 500;
+    return next(error);
+  }
+};
 
 const getProducts = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1; // Default to page 1 if not specified
-  const limit = parseInt(req.query.limit) || 24; // Default to 24 items per page if not specified
+  const limit = parseInt(req.query.limit) || 20; // Default to 20 items per page if not specified
   const skip = (page - 1) * limit;
   const { categoryId } = req.query;
 
@@ -130,6 +130,7 @@ const searchProduct = async (req, res, next) => {
 };
 
 module.exports = {
+  getAllProducts,
   getProducts,
   getProductById,
   addProduct,

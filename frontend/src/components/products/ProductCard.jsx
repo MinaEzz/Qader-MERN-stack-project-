@@ -1,7 +1,25 @@
+import { useContext } from "react";
+import { CartContext } from "../../context/cart-context";
+import { AuthContext } from "../../context/auth-context";
+import { toast } from "react-toastify";
 import { Button } from "..";
 import { FaPlus } from "react-icons/fa6";
+import { ThemeContext } from "../../context/theme-context";
 
 const ProductCard = ({ ...product }) => {
+  const { userId } = useContext(AuthContext);
+  const { addToCart } = useContext(CartContext);
+  const { isDark } = useContext(ThemeContext);
+
+  const handleAddToCart = () => {
+    if (!userId) {
+      return toast.error("You Must Login To Add Products To Your Cart", {
+        theme: isDark ? "dark" : "light" || "colored",
+      });
+    }
+    addToCart(userId, product._id, 1);
+  };
+
   return (
     <li className="w-[250px] min-h-[520px] bg-white dark:bg-slate-900 shadow-lg hover:shadow-2xl transition-all p-4 rounded-xl flex flex-col justify-between gap-4">
       <div className="flex justify-between items-center">
@@ -35,6 +53,7 @@ const ProductCard = ({ ...product }) => {
           activeBgColor="active:bg-slate-900"
           fontSize="text-base"
           height="h-10"
+          onClick={handleAddToCart}
         />
         <Button
           label={"details"}

@@ -170,6 +170,7 @@ export const MOBILEAPP = [
 ];
 export const PAGES = [
   { title: "home", url: "/" },
+  { title: "products", url: "/products" },
   { title: "about us", url: "/about-us" },
   { title: "contact us", url: "/contact-us" },
   { title: "jobs", url: "/jobs" },
@@ -177,31 +178,31 @@ export const PAGES = [
 export const FOOTER_CATEGORIES = [
   {
     title: "all",
-    url: "products/",
+    url: "/products",
   },
   {
     title: "home healthcare",
-    url: "products/1/home healthcare",
+    url: "products/6658a6fa10999fa1733c9ac7/home healthcare",
   },
   {
     title: "hearing & deaf",
-    url: "products/2/hearing & deaf",
+    url: "/products/6658a749b5b98b9959dc60ed/hearing & deaf",
   },
   {
     title: "household",
-    url: "products/3/household",
+    url: "/products/6658a757b5b98b9959dc60f0/household",
   },
   {
     title: "mobility",
-    url: "products/4/mobility",
+    url: "/products/6658a760b5b98b9959dc60f3/mobility",
   },
   {
     title: "vision & blind",
-    url: "products/5/vision & blind",
+    url: "/products/6658a76cb5b98b9959dc60f6/vision%20&%20blind",
   },
   {
     title: "technology",
-    url: "products/6/technology",
+    url: "/products/6658a777b5b98b9959dc60f9/technology",
   },
 ];
 export const FOR_USERS = [

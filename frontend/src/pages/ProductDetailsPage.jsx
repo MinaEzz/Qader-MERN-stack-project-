@@ -1,20 +1,36 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   QuantitySelector,
   ProductFeedback,
   ProductRates,
   Loader,
+  Button,
 } from "../components";
 import { FaCartArrowDown } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AuthContext } from "../context/auth-context";
+import { CartContext } from "../context/cart-context";
+import { ThemeContext } from "../context/theme-context";
 
 const ProductDetailsPage = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const { userId } = useContext(AuthContext);
+  const { addToCart } = useContext(CartContext);
+  const { isDark } = useContext(ThemeContext);
+
+  const handleAddToCart = () => {
+    if (!userId) {
+      return toast.error("You Must Login To Add Products To Your Cart", {
+        theme: isDark ? "dark" : "light" || "colored",
+      });
+    }
+    addToCart(userId, productId, quantity);
+  };
 
   useEffect(() => {
     const fetchProductById = async () => {
@@ -39,8 +55,7 @@ const ProductDetailsPage = () => {
       }
     };
     fetchProductById();
-
-    document.title = product?.title;
+    document.title = product.title;
     window.scrollTo(0, 0);
   }, []);
 
@@ -78,10 +93,14 @@ const ProductDetailsPage = () => {
                       setQuantity={setQuantity}
                     />
                   </div>
-                  <button className="w-full h-14 flex items-center justify-center gap-1 rounded-xl bg-primary-600 hover:bg-primary-700 active:bg-primary-800 transition-all text-xl capitalize font-medium text-white">
-                    add to cart
-                    <FaCartArrowDown fontSize={24} />
-                  </button>
+                  <Button
+                    type={"button"}
+                    label={"add to cart"}
+                    icon={<FaCartArrowDown fontSize={24} />}
+                    fontSize={"text-xl"}
+                    fontWeight={"font-medium"}
+                    onClick={handleAddToCart}
+                  />
                 </div>
               </div>
               <ProductFeedback feedback={product?.feedback} />

@@ -1,4 +1,3 @@
-import { useState, useCallback } from "react";
 import { AuthContext } from "./context/auth-context";
 import {
   BrowserRouter as Router,
@@ -20,18 +19,10 @@ import {
   SearchPage,
   CartPage,
 } from "./pages";
+import { useContext } from "react";
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userId, setUserId] = useState(null);
-  const login = useCallback((uid) => {
-    setIsLoggedIn(true);
-    setUserId(uid);
-  }, []);
-  const logout = useCallback(() => {
-    setIsLoggedIn(false);
-    setUserId(null);
-  }, []);
+  const { isLoggedIn } = useContext(AuthContext);
 
   let routes;
   if (isLoggedIn) {
@@ -50,7 +41,7 @@ const App = () => {
         <Route path="/authentication" element={<Navigate to="/" />} />
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/profile/:userId" element={<UserProfilePage />} />
-        <Route path="/cart" element={<CartPage />} />
+        <Route path="/cart/:userId" element={<CartPage />} />
       </>
     );
   } else {
@@ -72,32 +63,26 @@ const App = () => {
           path="/profile/:userId"
           element={<Navigate to="/authentication" />}
         />
-        <Route path="/cart" element={<Navigate to="/authentication" />} />
+        <Route
+          path="/cart/:userId"
+          element={<Navigate to="/authentication" />}
+        />
       </>
     );
   }
 
   return (
-    <AuthContext.Provider
-      value={{
-        isLoggedIn: isLoggedIn,
-        userId: userId,
-        login: login,
-        logout: logout,
-      }}
-    >
-      <main className="bg-neutral-100 dark:bg-slate-950 overflow-clip relative">
-        <Router>
-          <Header />
-          <Navbar />
-          <Routes>
-            {routes}
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-          <Footer />
-        </Router>
-      </main>
-    </AuthContext.Provider>
+    <main className="bg-neutral-100 dark:bg-slate-950 overflow-clip relative">
+      <Router>
+        <Header />
+        <Navbar />
+        <Routes>
+          {routes}
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+        <Footer />
+      </Router>
+    </main>
   );
 };
 

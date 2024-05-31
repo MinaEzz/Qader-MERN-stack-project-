@@ -5,12 +5,12 @@ import { MdShoppingCart } from "react-icons/md";
 import { IoSunnyOutline, IoMoonOutline } from "react-icons/io5";
 import { AuthContext } from "../../context/auth-context";
 import { ThemeContext } from "../../context/theme-context";
-
-import "react-toastify/dist/ReactToastify.css";
+import { CartContext } from "../../context/cart-context";
 
 const Header = () => {
   const auth = useContext(AuthContext);
   const { isDark, themeSwitch } = useContext(ThemeContext);
+  const { cart } = useContext(CartContext);
 
   return (
     <header className="py-1.5 bg-primary-600">
@@ -42,14 +42,16 @@ const Header = () => {
             </Link>
           </div>
           <div className="relative rounded-full text-center h-fit bg-neutral-100 dark:bg-slate-900 p-2">
-            <Link to="/cart">
+            <Link to={`/cart/${auth?.userId}`}>
               <MdShoppingCart
                 fontSize={20}
                 title="Cart"
                 className="text-primary-600"
               />
               <div className="absolute top-1/2 -translate-y-full -right-2 text-center bg-neutral-100 dark:bg-slate-900 rounded-full w-6 h-6">
-                <span className="text-sm font-bold text-slate-600">0</span>
+                <span className="text-sm font-bold text-slate-600">
+                  {cart?.length}
+                </span>
               </div>
             </Link>
           </div>

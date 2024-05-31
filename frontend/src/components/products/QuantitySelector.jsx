@@ -17,7 +17,7 @@ const QuantitySelector = ({ quantity, setQuantity }) => {
       >
         <FaMinus className="m-auto" fontSize={14} color="white" />
       </button>
-      <span className="text-slate-700 dark:text-slate-600 font-medium text-base">
+      <span className="text-slate-700 dark:text-slate-400 font-medium text-base">
         {quantity}
       </span>
       <button
