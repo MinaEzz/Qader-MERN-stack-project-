@@ -57,11 +57,11 @@ const ProductDetailsPage = () => {
     fetchProductById();
     document.title = product.title;
     window.scrollTo(0, 0);
-  }, []);
+  }, [product.title, productId]);
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer theme={isDark ? "dark" : "light" || "colored"} />
       <section className="min-h-[100dvh] pd-y">
         <div className="container flex flex-col gap-4">
           {isLoading ? (

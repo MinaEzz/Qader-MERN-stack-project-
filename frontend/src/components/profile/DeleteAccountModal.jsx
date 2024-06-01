@@ -5,7 +5,7 @@ import { IoClose } from "react-icons/io5";
 import { Button, Loader } from "..";
 import { ThemeContext } from "../../context/theme-context";
 
-export const DeleteAccountModal = ({ open, close, userId }) => {
+const DeleteAccountModal = ({ open, close, userId }) => {
   const auth = useContext(AuthContext);
   const { isDark } = useContext(ThemeContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -98,3 +98,5 @@ export const DeleteAccountModal = ({ open, close, userId }) => {
     </>
   );
 };
+
+export default DeleteAccountModal;

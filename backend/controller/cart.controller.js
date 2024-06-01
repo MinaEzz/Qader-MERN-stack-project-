@@ -20,9 +20,7 @@ const addToCart = async (req, res, next) => {
       error.code = 404;
       return next(error);
     }
-
     let cart = await Cart.findOne({ userId });
-
     if (!cart) {
       // If the cart does not exist, create a new one
       cart = new Cart({
@@ -31,7 +29,6 @@ const addToCart = async (req, res, next) => {
         total: 0,
       });
     }
-
     const existingItem = cart.items.find(
       (item) => item.product.toString() === productId
     );
@@ -92,27 +89,34 @@ const getCart = async (req, res, next) => {
 
 const removeFromCart = async (req, res, next) => {
   const { userId, productId } = req.body;
-
   try {
     let cart = await Cart.findOne({ userId });
-
     if (cart) {
       const itemIndex = cart.items.findIndex(
         (item) => item.product.toString() === productId
       );
-
       if (itemIndex > -1) {
         cart.items.splice(itemIndex, 1);
         cart.total = cart.items.reduce((acc, item) => acc + item.price, 0);
         await cart.save();
       }
-
-      res.status(200).json(cart);
+      res.status(200).json({
+        status: "success",
+        data: {
+          cart,
+        },
+      });
     } else {
-      return res.status(404).json({ message: "Cart not found" });
+      const error = new Error("Cart not found.");
+      error.status = FAIL;
+      error.code = 404;
+      return next(error);
     }
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    const error = new Error(err.message);
+    error.status = "error";
+    error.code = 500;
+    return next(error);
   }
 };
 

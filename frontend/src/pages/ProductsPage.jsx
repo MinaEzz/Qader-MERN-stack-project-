@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { OurTitle, Pagination, ProductCard, Loader } from "../components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ThemeContext } from "../context/theme-context";
 
 const ProductsPage = () => {
   const { categoryId, categoryTITLE } = useParams();
@@ -10,6 +11,7 @@ const ProductsPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const { isDark } = useContext(ThemeContext);
 
   const fetchProducts = async (pageNumber) => {
     setIsLoading(true);
@@ -51,12 +53,12 @@ const ProductsPage = () => {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer theme={isDark ? "dark" : "light" || "colored"} />
       <section className="min-h-[100dvh] pd-y">
         <OurTitle
           title={`${categoryTITLE ? `${categoryTITLE} products` : "products"}`}
         />
-        <div className="container ">
+        <div className="container">
           <ul className="pd-y-s flex gap-8 flex-wrap items-center justify-around">
             {isLoading ? (
               <Loader />
