@@ -7,12 +7,12 @@ import { FaPlus } from "react-icons/fa6";
 import { ThemeContext } from "../../context/theme-context";
 
 const ProductCard = ({ ...product }) => {
-  const { userId } = useContext(AuthContext);
+  const { userId, isLoggedIn } = useContext(AuthContext);
   const { addToCart } = useContext(CartContext);
   const { isDark } = useContext(ThemeContext);
 
   const handleAddToCart = () => {
-    if (!userId) {
+    if (!isLoggedIn) {
       return toast.error("You Must Login To Add Products To Your Cart", {
         theme: isDark ? "dark" : "light" || "colored",
       });

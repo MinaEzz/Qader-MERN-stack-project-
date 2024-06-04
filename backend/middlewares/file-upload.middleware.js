@@ -5,12 +5,13 @@ const MIME_TYPE_MAP = {
   "image/jpeg": "jpeg",
   "image/png": "png",
 };
+const path = require("path");
 
 const fileUpload = multer({
   limits: 500000,
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, "uploads/images");
+      cb(null, path.join(__dirname + "../uploads/images"));
     },
     filename: (req, file, cb) => {
       const ext = MIME_TYPE_MAP[file.mimetype];

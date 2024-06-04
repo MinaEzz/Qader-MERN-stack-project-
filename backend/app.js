@@ -8,6 +8,7 @@ const usersRouter = require("./routes/users.routes.js");
 const categoriesRouter = require("./routes/categories.routes");
 const productsRouter = require("./routes/products.routes.js");
 const cartRouter = require("./routes/cart.routes");
+const contactRouter = require("./routes/contact.routes.js");
 
 const { ERROR } = require("./utils/httpStatusText.js");
 
@@ -28,6 +29,7 @@ app.use("/api/users", usersRouter);
 app.use("/api/categories", categoriesRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/cart", cartRouter);
+app.use("/api/contact", contactRouter);
 
 // global middleware for Not Found router
 app.all("*", (req, res, next) => {

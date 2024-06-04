@@ -13,10 +13,11 @@ export const CartProvider = ({ children }) => {
       const response = await fetch(`http://localhost:5000/api/cart/${userId}`);
       const responseData = await response.json();
       if (response.ok) {
-        setCart(responseData.data.cart.items);
-        console.log(responseData);
+        setCart(responseData.data.cart);
+        console.log(cart);
       } else {
-        toast.error(responseData.message);
+        // toast.error(responseData.message);
+        console.log(cart);
         console.log(responseData);
         console.log(responseData.message);
       }
@@ -41,7 +42,7 @@ export const CartProvider = ({ children }) => {
       });
       const responseData = await response.json();
       if (response.ok) {
-        setCart(responseData.data.cart.items);
+        setCart(responseData.data.cart);
         toast.update(toastId, {
           render: "Product added to your cart successfully! 🛒",
           type: "success",

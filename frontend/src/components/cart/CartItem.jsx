@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Button } from "..";
-import { MdOutlineDeleteOutline } from "react-icons/md";
 import { CartContext } from "../../context/cart-context";
+import { IoTrash } from "react-icons/io5";
 const CartItem = ({ item, userId }) => {
   const { removeFromCart } = useContext(CartContext);
   const handleRemove = () => {
@@ -28,8 +28,8 @@ const CartItem = ({ item, userId }) => {
         <p className=" text-lg text-primary-600 ">Quantity: {item?.quantity}</p>
         <Button
           label={"remove"}
-          icon={<MdOutlineDeleteOutline fontSize={20} />}
-          width={"lg:w-[200px]"}
+          icon={<IoTrash fontSize={20} />}
+          width={"w-[160px]"}
           backgroundColor={"bg-coral-red-700"}
           hoverBgColor={"hover:bg-coral-red-800"}
           activeBgColor={"active:bg-coral-red-900"}

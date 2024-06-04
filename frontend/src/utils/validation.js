@@ -112,3 +112,25 @@ export const validateUpdateForm = (formData) => {
 
   return errors.length === 0;
 };
+
+export const validateContactForm = (formData) => {
+  let errors = [];
+
+  if (!formData.firstName.trim()) {
+    errors.push("First name is required.");
+  }
+  if (!formData.lastName.trim()) {
+    errors.push("Last name is required.");
+  }
+  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  if (!formData.email.trim() || !emailPattern.test(formData.email)) {
+    errors.push("Valid email is required.");
+  }
+  if (!formData.message.trim()) {
+    errors.push("Your message is required.");
+  }
+
+  errors.forEach((error) => toast.error(error));
+
+  return errors.length === 0;
+};

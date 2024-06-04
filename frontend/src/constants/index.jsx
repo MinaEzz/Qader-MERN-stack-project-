@@ -1,29 +1,3 @@
-export const NAVLINKS = [
-  {
-    title: "home",
-    path: "/",
-  },
-  {
-    title: "products",
-    path: "/products",
-  },
-  {
-    title: "about",
-    path: "/about-us",
-  },
-  {
-    title: "contact us",
-    path: "contact-us",
-  },
-  {
-    title: "jobs",
-    path: "/jobs",
-  },
-  {
-    title: "login/Register",
-    path: "/authentication",
-  },
-];
 // Services Constants
 import { FaRegFaceSmileBeam, FaFaceGrinStars } from "react-icons/fa6";
 import { FaDollarSign, FaShippingFast } from "react-icons/fa";
@@ -32,39 +6,6 @@ export const SERVICES = [
   { title: "valuable products", icon: <FaDollarSign size={38} /> },
   { title: "fast shipping", icon: <FaShippingFast size={38} /> },
   { title: "job opportunities", icon: <FaFaceGrinStars size={38} /> },
-];
-// home constants
-export const CATEGORIES = [
-  {
-    id: 1,
-    title: "home healthcare",
-    url: "/home_healthcare",
-  },
-  {
-    id: 2,
-    title: "hearing & deaf",
-    url: "/hearing_and_deaf",
-  },
-  {
-    id: 3,
-    title: "household",
-    url: "/household",
-  },
-  {
-    id: 4,
-    title: "mobility",
-    url: "/mobility",
-  },
-  {
-    id: 5,
-    title: "vision & blind",
-    url: "/vision_and_blind",
-  },
-  {
-    id: 6,
-    title: "technology",
-    url: "/technology",
-  },
 ];
 export const RECCOMENDED_PRODUCTS = [
   {

@@ -19,12 +19,12 @@ const ProductDetailsPage = () => {
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const { userId } = useContext(AuthContext);
+  const { userId, isLoggedIn } = useContext(AuthContext);
   const { addToCart } = useContext(CartContext);
   const { isDark } = useContext(ThemeContext);
 
   const handleAddToCart = () => {
-    if (!userId) {
+    if (!isLoggedIn) {
       return toast.error("You Must Login To Add Products To Your Cart", {
         theme: isDark ? "dark" : "light" || "colored",
       });

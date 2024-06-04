@@ -50,7 +50,7 @@ const Header = () => {
               />
               <div className="absolute top-1/2 -translate-y-full -right-2 text-center bg-neutral-100 dark:bg-slate-900 rounded-full w-6 h-6">
                 <span className="text-sm font-bold text-slate-600 dark:text-slate-400">
-                  {cart?.length}
+                  {cart?.items?.length || 0}
                 </span>
               </div>
             </Link>

@@ -42,7 +42,7 @@ const getProducts = async (req, res, next) => {
       return next(error);
     }
     res.status(200).json({
-      status: "success",
+      status: SUCCESS,
       data: {
         products,
         totalProducts,
