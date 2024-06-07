@@ -1,24 +1,7 @@
 const { SUCCESS, ERROR, FAIL } = require("../utils/httpStatusText");
 const Product = require("../models/product.model");
-const Category = require("../models/category.model");
-
-const getAllProducts = async (req, res, next) => {
-  try {
-    const products = await Product.find();
-    if (!products || products.length === 0) {
-      const error = new Error("No Products Found.");
-      error.status = FAIL;
-      error.code = 404;
-      return next(error);
-    }
-    res.status(200).json({ status: SUCCESS, data: { products } });
-  } catch (err) {
-    const error = new Error(err.message);
-    error.status = ERROR;
-    error.code = 500;
-    return next(error);
-  }
-};
+const User = require("../models/user.model");
+const DisabilityType = require("../models/disability-type.model");
 
 const getProducts = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1; // Default to page 1 if not specified
@@ -53,29 +36,6 @@ const getProducts = async (req, res, next) => {
   } catch (err) {
     const error = new Error(err.message);
     error.status = "error";
-    error.code = 500;
-    return next(error);
-  }
-};
-
-const addProduct = async (req, res, next) => {
-  const body = req.body;
-  const { categoryName } = req.params;
-  try {
-    const category = await Category.findOne({ name: categoryName });
-    if (category) {
-      const createdProduct = new Product({ ...body, category: category._id });
-      await createdProduct.save();
-      res.status(201).json({ status: SUCCESS, data: { user: createdProduct } });
-    } else {
-      const error = new Error(`Category "${categoryName}" Is Not Exists.`);
-      error.status = FAIL;
-      error.code = 404;
-      return next(error);
-    }
-  } catch (err) {
-    const error = new Error(err.message);
-    error.status = ERROR;
     error.code = 500;
     return next(error);
   }
@@ -129,12 +89,54 @@ const searchProduct = async (req, res, next) => {
   }
 };
 
+const getRecommendedProducts = async (req, res, next) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId).populate("disabilityType");
+    if (!user || !user.disabilityType) {
+      const error = new Error("User or DisabilityType Not Found.");
+      error.status = FAIL;
+      error.code = 404;
+      return next(error);
+    }
+
+    const disabilityTypeId = user.disabilityType.id;
+    const disabilityType = await DisabilityType.findById(
+      disabilityTypeId
+    ).populate("category");
+    if (!disabilityType || !disabilityType.category) {
+      const error = new Error("DisabilityType or Category Not Found.");
+      error.status = FAIL;
+      error.code = 404;
+      return next(error);
+    }
+
+    const categoryId = disabilityType.category._id;
+
+    const products = await Product.find({ category: categoryId });
+
+    if (!products || products.length === 0) {
+      const error = new Error("No Products Found For The Given Category.");
+      error.status = FAIL;
+      error.code = 404;
+      return next(error);
+    }
+
+    const recommendedProducts = products.sort(() => 0.5 - Math.random());
+    return res
+      .status(200)
+      .json({ status: SUCCESS, data: { recommendedProducts } });
+  } catch (err) {
+    const error = new Error(err.message);
+    error.status = ERROR;
+    error.code = 500;
+    return next(error);
+  }
+};
+
 module.exports = {
-  getAllProducts,
   getProducts,
   getProductById,
-  addProduct,
   searchProduct,
-  //   updateProduct,
-  //   deleteProduct,
+  getRecommendedProducts,
 };

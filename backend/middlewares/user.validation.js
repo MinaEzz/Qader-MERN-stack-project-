@@ -9,7 +9,7 @@ const validationSchema = () => {
       "username",
       "phoneNumber",
       "password",
-      "disabilityType",
+      "disabilityTypeId",
       "gender",
       "birthDate",
     ]).notEmpty(),

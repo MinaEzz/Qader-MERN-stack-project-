@@ -30,7 +30,7 @@ export const validateRegisterForm = (formData) => {
     errors.push("Passwords do not match.");
   }
 
-  if (!formData.disabilityType) {
+  if (!formData.disabilityTypeId) {
     errors.push("Select the type of disability.");
   }
 

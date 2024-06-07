@@ -11,6 +11,7 @@ import {
 } from "../components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+const BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 
 const UserProfilePage = () => {
   const { isDark } = useContext(ThemeContext);
@@ -26,9 +27,7 @@ const UserProfilePage = () => {
     const getUserById = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(
-          `http://localhost:5000/api/users/${userId}`
-        );
+        const response = await fetch(BASE_URL + `/api/users/${userId}`);
         const responseData = await response.json();
         if (response.ok) {
           console.log(responseData);
@@ -58,10 +57,14 @@ const UserProfilePage = () => {
         <>
           <div className="container flex justify-between gap-6 max-lg:flex-col">
             <section className="lg:w-1/5  max-md:w-full w-1/2 m-auto lg:h-[340px] h-full rounded-full">
-              {user?.image ? (
+              {user?.image && user?.image !== "null" ? (
                 <img
                   className="rounded-3xl"
-                  src={user?.image}
+                  src={
+                    BASE_URL +
+                    "/" +
+                    "uploads/images/90c82af6-74f4-4eac-82eb-ff15ce58242e.jpeg"
+                  }
                   alt={user?.name}
                 />
               ) : (

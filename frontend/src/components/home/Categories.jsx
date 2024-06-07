@@ -3,6 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import Loader from "../shared/Loader";
 import "react-toastify/dist/ReactToastify.css";
+const BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -12,7 +13,7 @@ const Categories = () => {
     const getCategories = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch("http://localhost:5000/api/categories");
+        const response = await fetch(BASE_URL + "/api/categories");
         const responseData = await response.json();
         if (response.ok) {
           console.log(responseData);

@@ -8,11 +8,18 @@ const userSchema = new mongoose.Schema(
     username: { type: String, required: true },
     phoneNumber: { type: String, required: true },
     password: { type: String, required: true, minLength: 6 },
-    disabilityType: { type: String, required: true },
     gender: { type: String, required: true },
     birthDate: { type: Date, required: true },
     age: Number,
     image: { type: String },
+    disabilityType: {
+      name: { type: String, required: true },
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "DisabilityType",
+        required: true,
+      },
+    },
   },
   {
     timestamps: true,

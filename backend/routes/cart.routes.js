@@ -5,6 +5,9 @@ const {
   getCart,
   removeFromCart,
 } = require("../controller/cart.controller");
+const checkAuth = require("../middlewares/check-auth");
+
+router.use(checkAuth);
 
 router.route("/add").post(addToCart);
 router.route("/:userId").get(getCart);

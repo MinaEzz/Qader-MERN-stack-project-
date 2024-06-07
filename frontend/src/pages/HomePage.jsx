@@ -1,6 +1,5 @@
-import { Hero, Services, Categories, ProductSlider } from "../components";
-import { RECCOMENDED_PRODUCTS } from "../constants";
 import { useEffect } from "react";
+import { Hero, Services, Categories, ProductSlider } from "../components";
 
 const HomePage = () => {
   useEffect(() => {
@@ -19,14 +18,7 @@ const HomePage = () => {
         <div className="container flex flex-row justify-between max-lg:flex-col gap-4 mt-8">
           <Categories />
           <section className="flex w-[80%] max-lg:w-full flex-col gap-4 ">
-            <ProductSlider
-              title="recommended products"
-              products={RECCOMENDED_PRODUCTS}
-            />
-            <ProductSlider
-              title="popular products"
-              products={RECCOMENDED_PRODUCTS}
-            />
+            <ProductSlider />
           </section>
         </div>
       </section>

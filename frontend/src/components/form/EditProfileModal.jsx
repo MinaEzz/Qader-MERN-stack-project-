@@ -1,16 +1,17 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Input from "../shared/Input";
 import Loader from "../shared/Loader";
 import { Button } from "..";
 import { validateUpdateForm } from "../../utils/validation";
-import { TYPESOFDISABILITY } from "../../constants";
 import { ThemeContext } from "../../context/theme-context";
+const BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 
 const EditProfileModal = ({ open, close, user, userId }) => {
   const { isDark } = useContext(ThemeContext);
   const [isLoading, setIsLoading] = useState(false);
+  const [disabilityTypes, setDisabilityTypes] = useState([]);
   const [formData, setFormData] = useState({
     name: user?.name,
     email: user?.email,
@@ -20,22 +21,17 @@ const EditProfileModal = ({ open, close, user, userId }) => {
     gender: user?.gender,
     birthDate: user?.birthDate,
     age: user?.age,
-    disabilityType: user?.disabilityType,
+    disabilityTypeName: user?.disabilityType?.name,
+    disabilityTypeId: user?.disabilityType?.id,
     image: user?.image,
   });
   // Handle file input and generate image URL
   const pickFile = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setFormData((prevData) => ({
-        ...prevData,
-        image: reader.result,
-      }));
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
+    setFormData((prevData) => ({
+      ...prevData,
+      image: file,
+    }));
   };
   // Handle and calculate the age
   const calculateAge = (birthDate) => {
@@ -88,18 +84,18 @@ const EditProfileModal = ({ open, close, user, userId }) => {
       for (const key in formData) {
         formDataToSend.append(key, formData[key]);
       }
-      const response = await fetch(
-        `http://localhost:5000/api/users/${userId}`,
-        {
-          method: "PATCH",
-          body: formDataToSend,
-        }
-      );
+      const response = await fetch(BASE_URL + `/api/users/${userId}`, {
+        method: "PATCH",
+        body: formDataToSend,
+      });
       console.log(formDataToSend);
       const responseData = await response.json();
       if (response.ok) {
         console.log(responseData);
-        toast.success("User updated successfully, please reload the page.");
+        toast.success("User updated successfully.");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } else {
         console.log(responseData);
         toast.error(responseData.message);
@@ -111,6 +107,29 @@ const EditProfileModal = ({ open, close, user, userId }) => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    const fetchDisabilities = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(BASE_URL + "/api/disability");
+        const responseData = await response.json();
+        if (response.ok) {
+          console.log(responseData.data);
+          setDisabilityTypes(responseData.data.disabilities);
+        } else {
+          console.log(responseData);
+          toast.error(responseData.message);
+        }
+      } catch (err) {
+        console.log(err);
+        toast.error(err.message || "Something Went Wrong, Please Try Again.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchDisabilities();
+  }, []);
 
   if (!open) return null;
   return (
@@ -336,26 +355,29 @@ const EditProfileModal = ({ open, close, user, userId }) => {
                         name="disabilityType"
                         id="disabilityType"
                         className="w-full h-10 p-2 outline-none rounded-xl border border-primary-600 capitalize text-base text-neutral-600 dark:text-neutral-200 font-medium bg-transparent"
-                        value={
-                          formData?.disabilityType || "select disability type"
-                        }
-                        onChange={handleChange}
+                        value={formData?.disabilityTypeId}
+                        onChange={(e) => {
+                          setFormData({
+                            ...formData,
+                            disabilityTypeId: e.target.value,
+                          });
+                        }}
                       >
-                        <option
+                        {/* <option
                           value="select disability type"
                           disabled
                           className="capitalize text-base font-medium text-neutral-600 "
                         >
                           select disability type
-                        </option>
-                        {TYPESOFDISABILITY.map((type) => {
+                        </option> */}
+                        {disabilityTypes?.map((type) => {
                           return (
                             <option
-                              value={type}
-                              key={type}
+                              value={type?._id}
+                              key={type?._id}
                               className="capitalize text-base font-medium text-slate-700"
                             >
-                              {type}
+                              {type?.name}
                             </option>
                           );
                         })}

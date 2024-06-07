@@ -7,56 +7,6 @@ export const SERVICES = [
   { title: "fast shipping", icon: <FaShippingFast size={38} /> },
   { title: "job opportunities", icon: <FaFaceGrinStars size={38} /> },
 ];
-export const RECCOMENDED_PRODUCTS = [
-  {
-    id: 1,
-    name: "Bagel Blade with Suction Cup Base",
-    image: "https://www10.0zz0.com/2024/02/21/16/713820805.jpg",
-    price: 36.99,
-  },
-  {
-    id: 2,
-    name: "Arthritis Gloves- Small- One Pair",
-    image: "https://www10.0zz0.com/2024/02/21/16/256196285.jpg",
-    price: 21.95,
-  },
-  {
-    name: "FootMate Complete Foot Care System",
-    image: "https://www10.0zz0.com/2024/02/21/16/484845597.jpg",
-    price: 39.95,
-    id: 3,
-  },
-  {
-    name: "Dr. Josephs Foot Brush",
-    image: "https://www12.0zz0.com/2024/02/21/17/391721747.jpg",
-    price: 25.95,
-    id: 4,
-  },
-  {
-    name: "Drive Folding Universal Sliding Transfer Bench",
-    image: "https://www12.0zz0.com/2024/02/21/17/391721747.jpg",
-    price: 249,
-    url: "",
-  },
-  {
-    name: "Aluminum Rehab Shower Commode Chair with 24 inch Rear Wheels",
-    image: "https://www12.0zz0.com/2024/02/21/17/391721747.jpg",
-    price: 1085,
-    url: "",
-  },
-  {
-    name: "Childrens Chaise with Headrest and Straps",
-    image: "https://www12.0zz0.com/2024/02/21/17/204890346.jpg",
-    price: 269,
-    url: "",
-  },
-  {
-    name: "Bath Bench with Back and Arms",
-    image: "https://www12.0zz0.com/2024/02/21/17/391721747.jpg",
-    price: 89.95,
-    url: "",
-  },
-];
 // About page Constants
 export const VISION =
   "Create an inclusive and empowering online space where individuals with disabilities can access a diverse range of specialized equipment and explore meaningful job opportunities. We envision a world where everyone, regardless of ability, has the tools and opportunities to lead a fulfilling and independent life.";

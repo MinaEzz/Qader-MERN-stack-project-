@@ -19,13 +19,27 @@ import {
   SearchPage,
   CartPage,
 } from "./pages";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 const App = () => {
-  const { isLoggedIn } = useContext(AuthContext);
+  const { token, login } = useContext(AuthContext);
+  useEffect(() => {
+    const storedUserData = JSON.parse(localStorage.getItem("userData"));
+    if (
+      storedUserData &&
+      storedUserData.token &&
+      new Date(storedUserData.expiration) > new Date()
+    ) {
+      login(
+        storedUserData.userId,
+        storedUserData.token,
+        new Date(storedUserData.expiration)
+      );
+    }
+  }, [login]);
 
   let routes;
-  if (isLoggedIn) {
+  if (token) {
     routes = (
       <>
         <Route path="/" element={<HomePage />} />

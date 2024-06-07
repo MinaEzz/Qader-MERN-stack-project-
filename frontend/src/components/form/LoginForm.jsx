@@ -8,6 +8,7 @@ import { validateLoginForm } from "../../utils/validation";
 import "react-toastify/dist/ReactToastify.css";
 import { Button } from "..";
 import { ThemeContext } from "../../context/theme-context";
+const BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 
 const LoginForm = ({ setOpenModal }) => {
   const auth = useContext(AuthContext);
@@ -30,7 +31,7 @@ const LoginForm = ({ setOpenModal }) => {
     if (!validateLoginForm(formData)) return;
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/users/login", {
+      const response = await fetch(BASE_URL + "/api/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +42,7 @@ const LoginForm = ({ setOpenModal }) => {
       if (response.ok) {
         console.log(responseData);
         toast.success("User login successfully");
-        auth.login(responseData.data.user._id, responseData.data.user.name);
+        auth.login(responseData.data.user._id, responseData.data.token);
       } else {
         console.log(responseData);
         toast.error(responseData.message);

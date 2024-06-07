@@ -4,6 +4,8 @@ import { OurTitle, Pagination, ProductCard, Loader } from "../components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ThemeContext } from "../context/theme-context";
+const BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
+
 
 const ProductsPage = () => {
   const { categoryId, categoryTITLE } = useParams();
@@ -17,7 +19,7 @@ const ProductsPage = () => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:5000/api/products?page=${pageNumber}${
+        BASE_URL + `/api/products?page=${pageNumber}${
           categoryId ? "&categoryId=" + categoryId : ""
         }`
       );

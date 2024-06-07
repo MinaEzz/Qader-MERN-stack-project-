@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
 const cors = require("cors");
@@ -9,6 +10,7 @@ const categoriesRouter = require("./routes/categories.routes");
 const productsRouter = require("./routes/products.routes.js");
 const cartRouter = require("./routes/cart.routes");
 const contactRouter = require("./routes/contact.routes.js");
+const disapilityTypesRouter = require("./routes/disability-Types.routes.js");
 
 const { ERROR } = require("./utils/httpStatusText.js");
 
@@ -25,11 +27,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(helmet());
 
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/users", usersRouter);
 app.use("/api/categories", categoriesRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/contact", contactRouter);
+app.use("/api/disability", disapilityTypesRouter);
 
 // global middleware for Not Found router
 app.all("*", (req, res, next) => {

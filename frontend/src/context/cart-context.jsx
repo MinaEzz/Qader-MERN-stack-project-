@@ -1,19 +1,24 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { toast } from "react-toastify";
+import { AuthContext } from "./auth-context";
+const BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { token } = useContext(AuthContext);
 
   const getCart = async (userId) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/cart/${userId}`);
+      const response = await fetch(BASE_URL + `/api/cart/${userId}`, {
+        headers: { Authorization: "Bearer " + token },
+      });
       const responseData = await response.json();
       if (response.ok) {
-        setCart(responseData.data.cart);
+        setCart(responseData?.data?.cart);
         console.log(cart);
       } else {
         // toast.error(responseData.message);
@@ -35,9 +40,12 @@ export const CartProvider = ({ children }) => {
     );
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/cart/add", {
+      const response = await fetch(BASE_URL + "/api/cart/add", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
         body: JSON.stringify({ userId, productId, quantity }),
       });
       const responseData = await response.json();
@@ -77,9 +85,12 @@ export const CartProvider = ({ children }) => {
     const toastId = toast.loading("Removing product from your cart...");
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/cart/remove", {
+      const response = await fetch(BASE_URL + "/api/cart/remove", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
         body: JSON.stringify({ userId, productId }),
       });
       const responseData = await response.json();

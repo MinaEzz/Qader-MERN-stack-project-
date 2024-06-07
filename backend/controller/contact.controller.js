@@ -20,7 +20,6 @@ const sendContactEmail = async (req, res, next) => {
     to: process.env.QADER_GMAIL,
     subject: "New Contact Form Submission",
     html: `
-          <h2>New Contact Form Submission</h2>
           <p><strong>Name:</strong> ${body.firstName} ${body.lastName}</p>
           <p><strong>Email:</strong> ${body.email}</p>
           <p><strong>Message:</strong> ${body.message}</p>

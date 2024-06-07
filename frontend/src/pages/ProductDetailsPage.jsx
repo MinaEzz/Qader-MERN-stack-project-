@@ -1,18 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  QuantitySelector,
-  ProductFeedback,
-  ProductRates,
-  Loader,
-  Button,
-} from "../components";
+import { QuantitySelector, ProductRates, Loader, Button } from "../components";
 import { FaCartArrowDown } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../context/auth-context";
 import { CartContext } from "../context/cart-context";
 import { ThemeContext } from "../context/theme-context";
+const BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 
 const ProductDetailsPage = () => {
   const { productId } = useParams();
@@ -36,9 +31,7 @@ const ProductDetailsPage = () => {
     const fetchProductById = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(
-          `http://localhost:5000/api/products/${productId}`
-        );
+        const response = await fetch(BASE_URL + `/api/products/${productId}`);
         const responseData = await response.json();
         if (response.ok) {
           console.log(responseData);
@@ -103,7 +96,6 @@ const ProductDetailsPage = () => {
                   />
                 </div>
               </div>
-              <ProductFeedback feedback={product?.feedback} />
             </>
           )}
         </div>

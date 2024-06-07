@@ -10,7 +10,7 @@ const CartItem = ({ item, userId }) => {
   console.log(userId);
   return (
     <li className="w-full bg-white dark:bg-slate-900 p-4 rounded-xl flex max-lg:flex-col flex-row  gap-4 items-center">
-      <div className=" w-[240px] h-[180px]">
+      <div className=" w-[240px] max-lg:w-full h-[180px]">
         <img
           className="rounded-xl"
           src={item?.product?.image}

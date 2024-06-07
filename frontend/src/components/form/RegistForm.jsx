@@ -1,13 +1,14 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { ThemeContext } from "../../context/theme-context";
 import { AuthContext } from "../../context/auth-context";
-import { TYPESOFDISABILITY } from "../../constants";
+// import { TYPESOFDISABILITY } from "../../constants";
 import Input from "../shared/Input";
 import Loader from "../shared/Loader";
 import { Button } from "..";
 import { validateRegisterForm } from "../../utils/validation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+const BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 
 const RegistForm = () => {
   const auth = useContext(AuthContext);
@@ -24,8 +25,9 @@ const RegistForm = () => {
     gender: "",
     birthDate: "",
     age: 0,
-    disabilityType: "",
+    disabilityTypeId: "",
   });
+  const [disabilityTypes, setDisabilityTypes] = useState([]);
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     // Handle radio inputs separately
@@ -71,7 +73,7 @@ const RegistForm = () => {
     if (!validateRegisterForm(formData)) return;
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/users/signup", {
+      const response = await fetch(BASE_URL + "/api/users/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -82,7 +84,7 @@ const RegistForm = () => {
       if (response.ok) {
         console.log(responseData);
         toast.success("User registered successfully");
-        auth.login(responseData.data.user._id, responseData.data.user.name);
+        auth.login(responseData.data.user._id, responseData.data.token);
       } else {
         console.log(responseData);
         toast.error(responseData.message);
@@ -94,6 +96,29 @@ const RegistForm = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    const fetchDisabilities = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(BASE_URL + "/api/disability");
+        const responseData = await response.json();
+        if (response.ok) {
+          console.log(responseData.data);
+          setDisabilityTypes(responseData.data.disabilities);
+        } else {
+          console.log(responseData);
+          toast.error(responseData.message);
+        }
+      } catch (err) {
+        console.log(err);
+        toast.error(err.message || "Something Went Wrong, Please Try Again.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchDisabilities();
+  }, []);
 
   return (
     <>
@@ -166,11 +191,11 @@ const RegistForm = () => {
           />
           <select
             name="disabilityType"
-            id="typeOfDisability"
+            id="disabilityType"
             className="w-full h-10 p-2 outline-none rounded-xl border border-primary-600 capitalize text-base text-neutral-600 dark:text-neutral-200 font-medium bg-transparent"
             defaultValue="select disability type"
             onChange={(e) =>
-              setFormData({ ...formData, disabilityType: e.target.value })
+              setFormData({ ...formData, disabilityTypeId: e.target.value })
             }
           >
             <option
@@ -180,14 +205,14 @@ const RegistForm = () => {
             >
               select disability type
             </option>
-            {TYPESOFDISABILITY.map((type) => {
+            {disabilityTypes?.map((type) => {
               return (
                 <option
-                  value={type}
-                  key={type}
+                  value={type?._id}
+                  key={type?._id}
                   className="capitalize text-base font-medium text-slate-700"
                 >
-                  {type}
+                  {type?.name}
                 </option>
               );
             })}

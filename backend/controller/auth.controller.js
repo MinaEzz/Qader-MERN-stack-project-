@@ -1,6 +1,10 @@
 const { SUCCESS, ERROR, FAIL } = require("../utils/httpStatusText");
 const { validationResult } = require("express-validator");
 const User = require("../models/user.model");
+const DisabilityType = require("../models/disability-type.model");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const signUp = async (req, res, next) => {
   const errors = validationResult(req);
@@ -11,21 +15,72 @@ const signUp = async (req, res, next) => {
     return next(error);
   }
 
-  const body = req.body;
-  const createdUser = new User({ ...body, image: null });
+  const {
+    disabilityTypeId,
+    password,
+    confirmPassword,
+    email,
+    phoneNumber,
+    ...otherData
+  } = req.body;
+  if (password !== confirmPassword) {
+    const error = new Error("Password Doesn't Match.");
+    error.status = FAIL;
+    error.code = 400;
+    return next(error);
+  }
+
   try {
+    const disabilityType = await DisabilityType.findById(disabilityTypeId);
+    if (!disabilityType) {
+      const error = new Error("Invalid Disability Type.");
+      error.status = FAIL;
+      error.code = 404;
+      return next(error);
+    }
+
     const hasUser = await User.findOne({
-      $or: [{ email: body.email }, { phoneNumber: body.phoneNumber }],
+      $or: [{ email: email }, { phoneNumber: phoneNumber }],
     });
     if (!hasUser) {
-      if (body.password !== body.confirmPassword) {
-        const error = new Error("Password Doesn't Match.");
-        error.status = FAIL;
-        error.code = 400;
+      const hashedPassword = await bcrypt.hash(password, 12);
+      if (!hashedPassword) {
+        const error = new Error("Couldn't Create User, Please Try Again.");
+        error.status = ERROR;
+        error.code = 500;
         return next(error);
       }
+      const createdUser = new User({
+        ...otherData,
+        email,
+        phoneNumber,
+        password: hashedPassword,
+        image: null,
+        disabilityType: { name: disabilityType.name, id: disabilityType._id },
+      });
       await createdUser.save();
-      res.status(201).json({ status: SUCCESS, data: { user: createdUser } });
+
+      const token = jwt.sign(
+        { userId: createdUser._id, name: createdUser.name },
+        process.env.JWT_SECRET_KEY,
+        {
+          expiresIn: "1h",
+        }
+      );
+      if (!token) {
+        const error = new Error("Couldn't Create User, Please Try Again.");
+        error.status = ERROR;
+        error.code = 500;
+        return next(error);
+      }
+
+      res.status(201).json({
+        status: SUCCESS,
+        data: {
+          user: createdUser,
+          token: token,
+        },
+      });
     } else {
       const error = new Error("User Is Already Exist, Please Login Instead.");
       error.status = FAIL;
@@ -41,17 +96,17 @@ const signUp = async (req, res, next) => {
 };
 
 const login = async (req, res, next) => {
-  const body = req.body;
+  const { identifier, password } = req.body;
 
   try {
     const identifiedUser = await User.findOne({
       $or: [
-        { email: body.identifier },
-        { phoneNumber: body.identifier },
-        { username: body.identifier },
+        { email: identifier },
+        { phoneNumber: identifier },
+        { username: identifier },
       ],
     });
-    if (!identifiedUser || identifiedUser.password != body.password) {
+    if (!identifiedUser) {
       const error = new Error(
         "Couldn't Identify The User, Credentials Seem To Be Wrong."
       );
@@ -59,9 +114,39 @@ const login = async (req, res, next) => {
       error.code = 401;
       return next(error);
     }
+
+    const isValidPassword = await bcrypt.compare(
+      password,
+      identifiedUser.password
+    );
+    if (!isValidPassword) {
+      const error = new Error(
+        "Couldn't Identify The User, Credentials Seem To Be Wrong."
+      );
+      error.status = FAIL;
+      error.code = 401;
+      return next(error);
+    }
+
+    const token = jwt.sign(
+      { userId: identifiedUser._id, name: identifiedUser.name },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "1h",
+      }
+    );
+    if (!token) {
+      const error = new Error("Couldn't Login, Please Try Again.");
+      error.status = ERROR;
+      error.code = 500;
+      return next(error);
+    }
     res.status(200).json({
       status: SUCCESS,
-      data: { user: identifiedUser },
+      data: {
+        user: identifiedUser,
+        token: token,
+      },
     });
   } catch (err) {
     const error = new Error(err.message);

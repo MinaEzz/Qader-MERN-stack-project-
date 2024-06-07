@@ -7,6 +7,7 @@ import { validateContactForm } from "../../utils/validation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ThemeContext } from "../../context/theme-context";
+const BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 
 const ContactForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +31,7 @@ const ContactForm = () => {
     if (!validateContactForm(formData)) return;
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/contact", {
+      const response = await fetch(BASE_URL + "/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

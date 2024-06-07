@@ -10,13 +10,14 @@ const SearchPage = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { isDark } = useContext(ThemeContext);
+  const BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 
   useEffect(() => {
     const searchProducts = async () => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:5000/api/products/search/${searchTerm}`
+          BASE_URL + `/api/products/search/${searchTerm}`
         );
         const responseData = await response.json();
         if (response.ok) {

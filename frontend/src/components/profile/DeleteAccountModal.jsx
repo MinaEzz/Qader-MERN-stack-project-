@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { IoClose } from "react-icons/io5";
 import { Button, Loader } from "..";
 import { ThemeContext } from "../../context/theme-context";
+const BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 
 const DeleteAccountModal = ({ open, close, userId }) => {
   const auth = useContext(AuthContext);
@@ -14,12 +15,9 @@ const DeleteAccountModal = ({ open, close, userId }) => {
   const handleDelete = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(
-        `http://localhost:5000/api/users/${userId}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(BASE_URL + `/api/users/${userId}`, {
+        method: "DELETE",
+      });
       const responseData = await response.json();
       if (response.ok) {
         console.log(responseData);

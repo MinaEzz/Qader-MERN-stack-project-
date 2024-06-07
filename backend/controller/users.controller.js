@@ -1,23 +1,6 @@
 const { SUCCESS, FAIL, ERROR } = require("../utils/httpStatusText");
 const User = require("../models/user.model");
-
-const getAllUsers = async (req, res, next) => {
-  try {
-    const users = await User.find({}, { password: 0 });
-    if (!users || users.length === 0) {
-      const error = new Error("No Users Found.");
-      error.status = FAIL;
-      error.code = 404;
-      return next(error);
-    }
-    res.status(200).json({ status: SUCCESS, data: { users } });
-  } catch (err) {
-    const error = new Error(err.message);
-    error.status = ERROR;
-    error.code = 500;
-    return next(error);
-  }
-};
+const DisabilityType = require("../models/disability-type.model");
 
 const getUserById = async (req, res, next) => {
   const { userId } = req.params;
@@ -40,11 +23,32 @@ const getUserById = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
   const { userId } = req.params;
-  const body = req.body;
+  const { disabilityTypeId, ...otherData } = req.body;
   try {
-    let updatedUser = await User.findByIdAndUpdate(userId, {
-      $set: { ...body },
-    });
+    const disabilityType = await DisabilityType.findById(disabilityTypeId);
+    if (!disabilityType) {
+      const error = new Error("Invalid Disability Type.");
+      error.status = FAIL;
+      error.code = 404;
+      return next(error);
+    }
+
+    // Prepare updated user data
+    let updateData = {
+      ...otherData,
+      disabilityType: { name: disabilityType.name, id: disabilityType._id },
+    };
+    // If a file is uploaded, add the image URL to the update data
+    if (req.file) {
+      updateData.image = `/uploads/images/${req.file.filename}`; // Assuming the file path is stored in `req.file.path`
+    }
+
+    // Update the user
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: updateData },
+      { new: true }
+    );
     if (!updatedUser) {
       const error = new Error("User Not Found.");
       error.status = FAIL;
@@ -79,22 +83,8 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-const deleteAllUsers = async (req, res, next) => {
-  try {
-    await User.deleteMany();
-    res.status(200).json({ status: SUCCESS, data: null });
-  } catch (err) {
-    const error = new Error(err.message);
-    error.status = ERROR;
-    error.code = 500;
-    return next(error);
-  }
-};
-
 module.exports = {
-  getAllUsers,
   getUserById,
-  deleteAllUsers,
   updateUser,
   deleteUser,
 };
