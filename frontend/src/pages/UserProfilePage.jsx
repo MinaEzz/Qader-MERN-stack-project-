@@ -56,27 +56,25 @@ const UserProfilePage = () => {
       ) : (
         <>
           <div className="container flex justify-between gap-6 max-lg:flex-col">
-            <section className="lg:w-1/5  max-md:w-full w-1/2 m-auto lg:h-[340px] h-full rounded-full">
-              {user?.image && user?.image !== "null" ? (
-                <img
-                  className="rounded-3xl"
-                  src={
-                    BASE_URL +
-                    "/" +
-                    "uploads/images/90c82af6-74f4-4eac-82eb-ff15ce58242e.jpeg"
-                  }
-                  alt={user?.name}
-                />
-              ) : (
+            <section className="lg:w-[24%]  max-md:w-full w-1/2 m-auto lg:h-[340px] h-full rounded-full">
+              {!user?.image ||
+              user?.image === null ||
+              user?.image === "null" ? (
                 <img
                   className="rounded-3xl"
                   src={noProfilePic}
                   alt="profile vector image"
                 />
+              ) : (
+                <img
+                  className="rounded-3xl"
+                  src={BASE_URL + "/uploads/images/" + user?.image}
+                  alt={user?.name}
+                />
               )}
               {/* ./profile-image */}
             </section>
-            <section className="w-full flex-1 flex flex-col justify-between gap-8">
+            <section className="w-full flex-1 w-full flex flex-col justify-between gap-8">
               <ProfileInfo user={user} />
               <div className="flex bg-gree-600 items-center justify-between gap-2 w-fit max-lg:flex-col">
                 <Button

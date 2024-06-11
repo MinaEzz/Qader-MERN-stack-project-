@@ -7,6 +7,30 @@ export const SERVICES = [
   { title: "fast shipping", icon: <FaShippingFast size={38} /> },
   { title: "job opportunities", icon: <FaFaceGrinStars size={38} /> },
 ];
+// Sponsers Constants
+import { sofco, appxcel, forasna, qadron, velva } from "../assets/images";
+export const SPONSERS = [
+  {
+    name: "فرصنا",
+    image: forasna,
+  },
+  {
+    name: "قادرون باختلاف",
+    image: qadron,
+  },
+  {
+    name: "sofco",
+    image: sofco,
+  },
+  {
+    name: "appxcel",
+    image: appxcel,
+  },
+  {
+    name: "velva",
+    image: velva,
+  },
+];
 // About page Constants
 export const VISION =
   "Create an inclusive and empowering online space where individuals with disabilities can access a diverse range of specialized equipment and explore meaningful job opportunities. We envision a world where everyone, regardless of ability, has the tools and opportunities to lead a fulfilling and independent life.";
@@ -109,17 +133,6 @@ export const FOR_USERS = [
     title: "profile",
     url: "/profile/:userId",
   },
-];
-// regist form constants
-export const TYPESOFDISABILITY = [
-  "Mobility Impairments",
-  "Chronic Illnesses",
-  "Recovery from Surgery or Injury",
-  "Deafness or Hearing Impairments",
-  "Blindness or Vision Impairments",
-  "Cognitive Disabilities",
-  "Various Disabilities",
-  "other",
 ];
 // jobs constants
 export const JOBS = [

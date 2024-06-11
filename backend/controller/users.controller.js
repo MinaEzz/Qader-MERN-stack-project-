@@ -40,7 +40,7 @@ const updateUser = async (req, res, next) => {
     };
     // If a file is uploaded, add the image URL to the update data
     if (req.file) {
-      updateData.image = `/uploads/images/${req.file.filename}`; // Assuming the file path is stored in `req.file.path`
+      updateData.image = req.file.filename; // Assuming the file path is stored in `req.file.path`
     }
 
     // Update the user

@@ -1,5 +1,12 @@
 import { useEffect } from "react";
-import { Hero, Services, Categories, ProductSlider } from "../components";
+import {
+  Hero,
+  Services,
+  Categories,
+  ProductSlider,
+  OurTitle,
+} from "../components";
+import Sponsers from "../components/home/Sponsers";
 
 const HomePage = () => {
   useEffect(() => {
@@ -20,6 +27,12 @@ const HomePage = () => {
           <section className="flex w-[80%] max-lg:w-full flex-col gap-4 ">
             <ProductSlider />
           </section>
+        </div>
+      </section>
+      <section id="sponsers" className="h-fit w-full pd-y-s">
+        <OurTitle title={"sponsers"} />
+        <div className="container mt-8">
+          <Sponsers />
         </div>
       </section>
     </section>

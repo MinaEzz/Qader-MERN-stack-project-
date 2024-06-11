@@ -14,6 +14,7 @@ const LandingButton = ({
   backgroundColor,
   hoverBgColor,
   activeBgColor,
+  target,
 }) => {
   if (href) {
     return (
@@ -33,6 +34,8 @@ const LandingButton = ({
             fontSize ? fontSize : "text-2xl"
           } capitalize text-white w-full h-full`}
           href={href}
+          rel="noreferrer"
+          target={target}
         >
           <span>{label}</span>
           {icon && icon}

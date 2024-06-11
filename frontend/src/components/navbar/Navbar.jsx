@@ -66,7 +66,10 @@ const Navbar = () => {
               <li>
                 <button
                   className="w-full px-4 py-1 text-lg font-semibold rounded-sm text-slate-700 dark:text-slate-400 capitalize border bg-transparent border-slate-700 dark:border-primary-600 hover:text-white dark:hover:text-white hover:bg-slate-700 dark:hover:bg-primary-600 transition-all ease-in-out duration-700 flex items-center justify-center space-x-2"
-                  onClick={() => auth.logout()}
+                  onClick={() => {
+                    auth.logout();
+                    window.location.reload();
+                  }}
                 >
                   <span>logout</span> <CiLogout fontSize={24} />
                 </button>
