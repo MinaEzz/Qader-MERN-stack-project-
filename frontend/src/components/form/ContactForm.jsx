@@ -40,7 +40,6 @@ const ContactForm = () => {
       });
       const responseData = await response.json();
       if (response.ok) {
-        console.log(responseData);
         setFormData({
           firstName: "",
           lastName: "",
@@ -51,11 +50,9 @@ const ContactForm = () => {
           "Your message has been successfully sent! 🚀 We'll get back to you soon."
         );
       } else {
-        console.log(responseData);
         toast.error(responseData.message);
       }
     } catch (err) {
-      console.log(err);
       toast.error(err.message || "Something Went Wrong, Please Try Again.");
     } finally {
       setIsLoading(false);

@@ -30,23 +30,21 @@ const UserProfilePage = () => {
         const response = await fetch(BASE_URL + `/api/users/${userId}`);
         const responseData = await response.json();
         if (response.ok) {
-          console.log(responseData);
-          setUser(responseData.data.user);
+          setUser(responseData?.data?.user);
         } else {
-          console.log(responseData);
-          toast.error(responseData.message);
+          toast.error(responseData?.message);
         }
       } catch (err) {
         console.log(err);
-        toast.error(err.message || "Something Went Wrong, Please Try Again.");
+        toast.error(err?.message || "Something Went Wrong, Please Try Again.");
       } finally {
         setIsLoading(false);
       }
     };
     getUserById();
-    document.title = user.name;
+    document.title = user?.name;
     window.scrollTo(0, 0);
-  }, [userId, user.name]);
+  }, [userId, user?.name]);
 
   return (
     <section className="min-h-[100dvh] pd-y bg-white dark:bg-slate-950">
@@ -74,7 +72,7 @@ const UserProfilePage = () => {
               )}
               {/* ./profile-image */}
             </section>
-            <section className="w-full flex-1 w-full flex flex-col justify-between gap-8">
+            <section className="w-full flex-1 flex flex-col justify-between gap-8">
               <ProfileInfo user={user} />
               <div className="flex bg-gree-600 items-center justify-between gap-2 w-fit max-lg:flex-col">
                 <Button

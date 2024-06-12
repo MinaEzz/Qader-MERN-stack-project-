@@ -16,7 +16,9 @@ const SliderCard = ({ productImg, productTitle, productPrice, productId }) => {
           <h3 className="text-base capitalize font-bold text-slate-700 dark:text-slate-400">
             {productTitle?.slice(0, 40)}
           </h3>
-          <p className=" text-sm font-bold text-primary-600">${productPrice}</p>
+          <p className=" text-sm font-bold text-primary-600">
+            EGP {Math.round(productPrice * 25 * 100) / 100}
+          </p>
         </div>
         <Button
           label="shop now"

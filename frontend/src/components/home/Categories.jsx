@@ -16,15 +16,12 @@ const Categories = () => {
         const response = await fetch(BASE_URL + "/api/categories");
         const responseData = await response.json();
         if (response.ok) {
-          console.log(responseData);
-          setCategories(responseData.data.categories);
+          setCategories(responseData?.data?.categories);
         } else {
-          console.log(responseData);
-          toast.error(responseData.message);
+          toast.error(responseData?.message);
         }
       } catch (err) {
-        console.log(err);
-        toast.error(err.message || "Something Went Wrong, Please Try Again.");
+        toast.error(err?.message || "Something Went Wrong, Please Try Again.");
       } finally {
         setIsLoading(false);
       }
@@ -53,17 +50,17 @@ const Categories = () => {
                 all
               </Link>
             </li>
-            {categories.map((category) => {
+            {categories?.map((category) => {
               return (
                 <li
                   className="flex items-center flex-1 hover:bg-slate-300 last:lg:rounded-b-xl transition-all ease-in-out duration-500"
-                  key={category._id}
+                  key={category?._id}
                 >
                   <Link
                     className="w-full px-4 py-2 text-xl font-medium capitalize text-slate-700 dark:text-slate-400 dark:hover:text-primary-600  max-lg:text-center hover:text-primary-600 transition-all ease-in-out duration-500"
-                    to={`/products/${category._id}/${category.name}`}
+                    to={`/products/${category?._id}/${category?.name}`}
                   >
-                    {category.name}
+                    {category?.name}
                   </Link>
                 </li>
               );

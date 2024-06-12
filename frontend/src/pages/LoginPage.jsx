@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useEffect, useState } from "react";
 import { formVector } from "../assets/images";
 import { LoginForm, ForgetPasswordModal } from "../components";

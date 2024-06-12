@@ -19,16 +19,11 @@ export const CartProvider = ({ children }) => {
       const responseData = await response.json();
       if (response.ok) {
         setCart(responseData?.data?.cart);
-        console.log(cart);
       } else {
-        // toast.error(responseData.message);
-        console.log(cart);
-        console.log(responseData);
-        console.log(responseData.message);
+        console.log(responseData?.message);
       }
     } catch (err) {
-      toast.error(err.message || "Something Went Wrong, Please Try Again.");
-      console.log(err);
+      toast.error(err?.message || "Something Went Wrong, Please Try Again.");
     } finally {
       setIsLoading(false);
     }
@@ -50,32 +45,28 @@ export const CartProvider = ({ children }) => {
       });
       const responseData = await response.json();
       if (response.ok) {
-        setCart(responseData.data.cart);
+        setCart(responseData?.data?.cart);
         toast.update(toastId, {
           render: "Product added to your cart successfully! 🛒",
           type: "success",
           isLoading: false,
           autoClose: 3000,
         });
-        console.log(cart);
       } else {
-        console.log(responseData);
         toast.update(toastId, {
-          render: responseData.message,
+          render: responseData?.message,
           type: "error",
           isLoading: false,
           autoClose: 3000,
         });
-        console.log(responseData.message);
       }
     } catch (err) {
       toast.update(toastId, {
-        render: err.message || "Something Went Wrong, Please Try Again.",
+        render: err?.message || "Something Went Wrong, Please Try Again.",
         type: "error",
         isLoading: false,
         autoClose: 3000,
       });
-      console.log(err);
     } finally {
       setIsLoading(false);
     }
@@ -102,24 +93,21 @@ export const CartProvider = ({ children }) => {
           isLoading: false,
           autoClose: 3000,
         });
-        console.log(cart);
       } else {
         toast.update(toastId, {
-          render: responseData.message,
+          render: responseData?.message,
           type: "error",
           isLoading: false,
           autoClose: 3000,
         });
-        console.log(responseData);
       }
     } catch (err) {
       toast.update(toastId, {
-        render: err.message || "Something Went Wrong, Please Try Again.",
+        render: err?.message || "Something Went Wrong, Please Try Again.",
         type: "error",
         isLoading: false,
         autoClose: 3000,
       });
-      console.log(err);
     } finally {
       setIsLoading(false);
     }

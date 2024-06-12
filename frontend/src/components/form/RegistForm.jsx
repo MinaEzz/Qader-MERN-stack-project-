@@ -1,7 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { ThemeContext } from "../../context/theme-context";
 import { AuthContext } from "../../context/auth-context";
-// import { TYPESOFDISABILITY } from "../../constants";
 import Input from "../shared/Input";
 import Loader from "../shared/Loader";
 import { Button } from "..";
@@ -30,7 +29,6 @@ const RegistForm = () => {
   const [disabilityTypes, setDisabilityTypes] = useState([]);
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    // Handle radio inputs separately
     if (type === "radio" && checked) {
       setFormData({
         ...formData,
@@ -43,7 +41,7 @@ const RegistForm = () => {
       });
     }
   };
-  // Handle and calculate the age
+
   const calculateAge = (birthDate) => {
     const date = new Date(birthDate);
     const currentDate = new Date();
@@ -57,7 +55,7 @@ const RegistForm = () => {
     }
     return age;
   };
-  // Handle dateOfBirth change
+
   const handleDateOfBirthChange = (e) => {
     const newDateOfBirth = new Date(e.target.value)
       .toISOString()
@@ -82,16 +80,13 @@ const RegistForm = () => {
       });
       const responseData = await response.json();
       if (response.ok) {
-        console.log(responseData);
         toast.success("User registered successfully");
-        auth.login(responseData.data.user._id, responseData.data.token);
+        auth?.login(responseData?.data?.user?._id, responseData?.data?.token);
       } else {
-        console.log(responseData);
-        toast.error(responseData.message);
+        toast.error(responseData?.message);
       }
     } catch (err) {
-      console.log(err);
-      toast.error(err.message || "Something Went Wrong, Please Try Again.");
+      toast.error(err?.message || "Something Went Wrong, Please Try Again.");
     } finally {
       setIsLoading(false);
     }
@@ -104,15 +99,12 @@ const RegistForm = () => {
         const response = await fetch(BASE_URL + "/api/disability");
         const responseData = await response.json();
         if (response.ok) {
-          console.log(responseData.data);
-          setDisabilityTypes(responseData.data.disabilities);
+          setDisabilityTypes(responseData?.data?.disabilities);
         } else {
-          console.log(responseData);
-          toast.error(responseData.message);
+          toast.error(responseData?.message);
         }
       } catch (err) {
-        console.log(err);
-        toast.error(err.message || "Something Went Wrong, Please Try Again.");
+        toast.error(err?.message || "Something Went Wrong, Please Try Again.");
       } finally {
         setIsLoading(false);
       }
@@ -138,7 +130,7 @@ const RegistForm = () => {
             type="text"
             name="name"
             placeholder="Name"
-            value={formData.name}
+            value={formData?.name}
             onChange={handleChange}
           />
           <Input
@@ -146,7 +138,7 @@ const RegistForm = () => {
             type="email"
             name="email"
             placeholder="E-mail"
-            value={formData.email}
+            value={formData?.email}
             onChange={handleChange}
           />
           <Input
@@ -154,7 +146,7 @@ const RegistForm = () => {
             type="text"
             name="address"
             placeholder="Your Address"
-            value={formData.address}
+            value={formData?.address}
             onChange={handleChange}
           />
           <Input
@@ -162,7 +154,7 @@ const RegistForm = () => {
             type="text"
             name="username"
             placeholder="Username"
-            value={formData.username}
+            value={formData?.username}
             onChange={handleChange}
           />
           <Input
@@ -170,7 +162,7 @@ const RegistForm = () => {
             type="tel"
             name="phoneNumber"
             placeholder="Phone Number"
-            value={formData.phoneNumber}
+            value={formData?.phoneNumber}
             onChange={handleChange}
           />
           <Input
@@ -178,7 +170,7 @@ const RegistForm = () => {
             type="password"
             name="password"
             placeholder="Password"
-            value={formData.password}
+            value={formData?.password}
             onChange={handleChange}
           />
           <Input
@@ -186,7 +178,7 @@ const RegistForm = () => {
             type="password"
             name="confirmPassword"
             placeholder="Confirm Password"
-            value={formData.confirmPassword}
+            value={formData?.confirmPassword}
             onChange={handleChange}
           />
           <select
@@ -230,7 +222,7 @@ const RegistForm = () => {
                 type="radio"
                 name="gender"
                 id="male"
-                checked={formData.gender === "male"}
+                checked={formData?.gender === "male"}
                 value="male"
                 onChange={handleChange}
               />
@@ -246,7 +238,7 @@ const RegistForm = () => {
                 type="radio"
                 name="gender"
                 id="female"
-                checked={formData.gender === "female"}
+                checked={formData?.gender === "female"}
                 value="female"
                 onChange={handleChange}
               />
@@ -262,7 +254,7 @@ const RegistForm = () => {
                 type="radio"
                 name="gender"
                 id="other"
-                checked={formData.gender === "other"}
+                checked={formData?.gender === "other"}
                 value="other"
                 onChange={handleChange}
               />
@@ -287,7 +279,7 @@ const RegistForm = () => {
               type="date"
               name="dateOfBirth"
               id="dateOfBirth"
-              value={formData.birthDate}
+              value={formData?.birthDate}
               onChange={handleDateOfBirthChange}
             />
           </div>

@@ -17,18 +17,18 @@ const ProductCard = ({ ...product }) => {
         theme: isDark ? "dark" : "light" || "colored",
       });
     }
-    addToCart(userId, product._id, 1);
+    addToCart(userId, product?._id, 1);
   };
 
   return (
     <li className="w-[250px] min-h-[520px] bg-white dark:bg-slate-900 shadow-lg hover:shadow-2xl transition-all p-4 rounded-xl flex flex-col justify-between gap-4">
       <div className="flex justify-between items-center">
         <b className="bg-slate-600 rounded-xl py-1 px-2 text-white text-sm">
-          ${product?.price}
+          EGP {Math.round(product?.price * 25 * 100) / 100}
         </b>
         <b
           className={`text-sm ${
-            product.isAvailable ? "bg-primary-500" : "bg-coral-red-500"
+            product?.isAvailable ? "bg-primary-500" : "bg-coral-red-500"
           }  rounded-xl py-1 px-2 text-white`}
         >
           {product?.isAvailable ? "Available" : "Out of stock"}

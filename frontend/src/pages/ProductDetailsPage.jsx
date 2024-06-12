@@ -34,23 +34,21 @@ const ProductDetailsPage = () => {
         const response = await fetch(BASE_URL + `/api/products/${productId}`);
         const responseData = await response.json();
         if (response.ok) {
-          console.log(responseData);
-          setProduct(responseData.data.product);
+          setProduct(responseData?.data?.product);
         } else {
-          console.log(responseData);
-          toast.error(responseData.message);
+          toast.error(responseData?.message);
         }
       } catch (err) {
         console.log(err);
-        toast.error(err.message || "Something Went Wrong, Please Try Again.");
+        toast.error(err?.message || "Something Went Wrong, Please Try Again.");
       } finally {
         setIsLoading(false);
       }
     };
     fetchProductById();
-    document.title = product.title;
+    document.title = product?.title;
     window.scrollTo(0, 0);
-  }, [product.title, productId]);
+  }, [product?.title, productId]);
 
   return (
     <>
@@ -75,7 +73,7 @@ const ProductDetailsPage = () => {
                     {product?.description}
                   </p>
                   <p className="text-primary-600 font-bold text-xl">
-                    ${product?.price}
+                    EGP {Math.round(product?.price * 25 * 100) / 100}
                   </p>
                   <div className="w-full flex items-center gap-2">
                     <p className="text-lg capitalize text-slate-700 dark:text-slate-400">

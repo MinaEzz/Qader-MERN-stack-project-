@@ -70,7 +70,7 @@ const JobAccordionCard = ({ job }) => {
             <p className="text-stone-600 dark:text-stone-200  text-base">
               {!job?.expectedSalary || job?.expectedSalary === 0
                 ? "unkown"
-                : "$" + job?.expectedSalary}
+                : "EGP " + job?.expectedSalary}
             </p>
           </div>
           <Button

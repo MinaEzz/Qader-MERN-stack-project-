@@ -88,21 +88,17 @@ const EditProfileModal = ({ open, close, user, userId }) => {
         method: "PATCH",
         body: formDataToSend,
       });
-      console.log(formDataToSend);
       const responseData = await response.json();
       if (response.ok) {
-        console.log(responseData);
         toast.success("User updated successfully.");
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       } else {
-        console.log(responseData);
-        toast.error(responseData.message);
+        toast.error(responseData?.message);
       }
     } catch (err) {
-      console.log(err);
-      toast.error(err.message || "Something Went Wrong, Please Try Again.");
+      toast.error(err?.message || "Something Went Wrong, Please Try Again.");
     } finally {
       setIsLoading(false);
     }
@@ -115,15 +111,12 @@ const EditProfileModal = ({ open, close, user, userId }) => {
         const response = await fetch(BASE_URL + "/api/disability");
         const responseData = await response.json();
         if (response.ok) {
-          console.log(responseData.data);
-          setDisabilityTypes(responseData.data.disabilities);
+          setDisabilityTypes(responseData?.data?.disabilities);
         } else {
-          console.log(responseData);
-          toast.error(responseData.message);
+          toast.error(responseData?.message);
         }
       } catch (err) {
-        console.log(err);
-        toast.error(err.message || "Something Went Wrong, Please Try Again.");
+        toast.error(err?.message || "Something Went Wrong, Please Try Again.");
       } finally {
         setIsLoading(false);
       }
@@ -363,13 +356,6 @@ const EditProfileModal = ({ open, close, user, userId }) => {
                           });
                         }}
                       >
-                        {/* <option
-                          value="select disability type"
-                          disabled
-                          className="capitalize text-base font-medium text-neutral-600 "
-                        >
-                          select disability type
-                        </option> */}
                         {disabilityTypes?.map((type) => {
                           return (
                             <option

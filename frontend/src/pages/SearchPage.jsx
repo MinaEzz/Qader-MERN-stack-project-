@@ -21,24 +21,20 @@ const SearchPage = () => {
         );
         const responseData = await response.json();
         if (response.ok) {
-          console.log(responseData.data);
-          setProducts(responseData.data.products);
+          setProducts(responseData?.data?.products);
         } else {
-          console.log(responseData);
-          toast.error(responseData.message);
+          toast.error(responseData?.message);
         }
       } catch (err) {
-        console.log(err);
-        toast.error(err.message || "Something Went Wrong, Please Try Again.");
+        toast.error(err?.message || "Something Went Wrong, Please Try Again.");
       } finally {
         setIsLoading(false);
       }
     };
     searchProducts();
-    // fetch search api using searchterm
     document.title = `Search For ${searchTerm}`;
     window.scrollTo(0, 0);
-  }, [searchTerm]);
+  }, [BASE_URL, searchTerm]);
   return (
     <>
       <ToastContainer theme={isDark ? "dark" : "light" || "colored"} />
@@ -53,7 +49,7 @@ const SearchPage = () => {
               <Loader />
             ) : (
               products?.map((product) => {
-                return <ProductCard key={product._id} {...product} />;
+                return <ProductCard key={product?._id} {...product} />;
               })
             )}
           </ul>

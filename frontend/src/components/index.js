@@ -22,9 +22,6 @@ import ProductCard from "./products/ProductCard";
 import Pagination from "./Pagination";
 import QuantitySelector from "./products/QuantitySelector";
 import ProductRates from "./products/ProductRates";
-import ProductFeedback from "./products/ProductFeedback";
-import FeedbackForm from "./form/FeedbackForm";
-import AddJobForm from "./form/AddJobForm";
 import JobAccordionCard from "./jobs/JobAccordionCard";
 import EditProfileModal from "./form/EditProfileModal";
 import ProfileInfo from "./profile/ProfileInfo";
@@ -56,9 +53,6 @@ export {
   Pagination,
   QuantitySelector,
   ProductRates,
-  ProductFeedback,
-  FeedbackForm,
-  AddJobForm,
   JobAccordionCard,
   EditProfileModal,
   ProfileInfo,

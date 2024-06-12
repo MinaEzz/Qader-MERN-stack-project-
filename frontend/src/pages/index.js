@@ -8,7 +8,6 @@ import RegisterationPage from "./RegisterationPage";
 import AuthenticationPage from "./AuthenticationPage";
 import ProductDetailsPage from "./ProductDetailsPage";
 import JobsPage from "./JobsPage";
-import AddJobPage from "./AddJobPage";
 import PageNotFound from "./PageNotFound";
 import SearchPage from "./SearchPage";
 import CartPage from "./CartPage";
@@ -22,7 +21,6 @@ export {
   RegisterationPage,
   ProductDetailsPage,
   JobsPage,
-  AddJobPage,
   PageNotFound,
   SearchPage,
   CartPage,

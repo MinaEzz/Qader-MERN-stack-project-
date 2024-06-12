@@ -26,15 +26,12 @@ const ProductSlider = () => {
         );
         const responseData = await response.json();
         if (response.ok) {
-          console.log(responseData.data);
-          setRecommendedProducts(responseData.data.recommendedProducts);
+          setRecommendedProducts(responseData?.data?.recommendedProducts);
         } else {
-          console.log(responseData);
-          toast.error(responseData.message);
+          toast.error(responseData?.message);
         }
       } catch (err) {
-        console.log(err);
-        toast.error(err.message || "Something Went Wrong, Please Try Again.");
+        toast.error(err?.message || "Something Went Wrong, Please Try Again.");
       } finally {
         setIsLoading(false);
       }
@@ -68,7 +65,7 @@ const ProductSlider = () => {
         <h3 className="text-xl font-semibold  text-primary-600 capitalize max-lg:text-center">
           recommended products
         </h3>
-        {!recommendedProducts || recommendedProducts.length === 0 ? (
+        {!recommendedProducts || recommendedProducts?.length === 0 ? (
           isLoading ? (
             <Loader />
           ) : (

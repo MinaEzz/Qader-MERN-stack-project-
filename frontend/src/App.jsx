@@ -23,6 +23,7 @@ import { useContext, useEffect } from "react";
 
 const App = () => {
   const { token, login } = useContext(AuthContext);
+
   useEffect(() => {
     const storedUserData = JSON.parse(localStorage.getItem("userData"));
     if (

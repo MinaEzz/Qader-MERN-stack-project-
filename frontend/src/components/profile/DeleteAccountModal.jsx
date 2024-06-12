@@ -20,14 +20,12 @@ const DeleteAccountModal = ({ open, close, userId }) => {
       });
       const responseData = await response.json();
       if (response.ok) {
-        console.log(responseData);
         toast.success("User deleted successfully");
         auth.logout();
       } else {
-        toast.error(responseData.message || "Failed to delete user");
+        toast.error(responseData?.message || "Failed to delete user");
       }
     } catch (err) {
-      console.error(err);
       toast.error("Something went wrong, please try again later");
     } finally {
       setIsLoading(false);

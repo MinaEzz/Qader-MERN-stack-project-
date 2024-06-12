@@ -21,19 +21,6 @@ const Header = () => {
         <div className=" flex items-center justify-end gap-3">
           <div className="rounded-full text-center h-fit bg-neutral-100 dark:bg-slate-900 p-2 ">
             <Link to={`/profile/${auth?.userId}`}>
-              {/* {user ? (
-                  <img
-                    className="rounded-full "
-                    src={user?.image || noProfilePic}
-                    alt={user?.name}
-                  />
-                ) : (
-                  <FaUser
-                    fontSize={20}
-                    title="Avatar"
-                    className="text-primary-600"
-                  />
-                )} */}
               <FaUser
                 fontSize={20}
                 title="Avatar"

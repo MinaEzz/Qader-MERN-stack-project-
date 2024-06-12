@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { ThemeContext } from "../context/theme-context";
 const BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 
-
 const ProductsPage = () => {
   const { categoryId, categoryTITLE } = useParams();
   const [products, setProducts] = useState([]);
@@ -19,24 +18,21 @@ const ProductsPage = () => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        BASE_URL + `/api/products?page=${pageNumber}${
-          categoryId ? "&categoryId=" + categoryId : ""
-        }`
+        BASE_URL +
+          `/api/products?page=${pageNumber}${
+            categoryId ? "&categoryId=" + categoryId : ""
+          }`
       );
       const responseData = await response.json();
       if (response.ok) {
-        console.log(responseData.data);
-        setProducts(responseData.data.products);
-        // setCurrentPage(response.data.currentPage);
-        setTotalPages(responseData.data.totalPages);
-        console.log(currentPage);
+        setProducts(responseData?.data?.products);
+        setCurrentPage(response?.data?.currentPage);
+        setTotalPages(responseData?.data?.totalPages);
       } else {
-        console.log(responseData);
-        toast.error(responseData.message);
+        toast.error(responseData?.message);
       }
     } catch (err) {
-      console.log(err);
-      toast.error(err.message || "Something Went Wrong, Please Try Again.");
+      toast.error(err?.message || "Something Went Wrong, Please Try Again.");
     } finally {
       setIsLoading(false);
     }
@@ -66,7 +62,7 @@ const ProductsPage = () => {
               <Loader />
             ) : (
               products.map((product) => {
-                return <ProductCard key={product._id} {...product} />;
+                return <ProductCard key={product?._id} {...product} />;
               })
             )}
           </ul>

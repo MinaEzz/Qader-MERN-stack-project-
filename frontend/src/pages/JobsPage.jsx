@@ -15,15 +15,12 @@ const JobsPage = () => {
       const response = await fetch(BASE_URL + "/api/jobs");
       const responseData = await response.json();
       if (response.ok) {
-        console.log(responseData.data);
-        setJobs(responseData.data.jobs);
+        setJobs(responseData?.data?.jobs);
       } else {
-        console.log(responseData);
-        toast.error(responseData.message);
+        toast.error(responseData?.message);
       }
     } catch (err) {
-      console.log(err);
-      toast.error(err.message || "Something Went Wrong, Please Try Again.");
+      toast.error(err?.message || "Something Went Wrong, Please Try Again.");
     } finally {
       setIsLoading(false);
     }
@@ -45,7 +42,7 @@ const JobsPage = () => {
           <section className="w-full flex flex-1 flex-col gap-4">
             {isLoading ? (
               <Loader />
-            ) : !jobs || jobs.length === 0 ? (
+            ) : !jobs || jobs?.length === 0 ? (
               <h2> no jobs found</h2>
             ) : (
               jobs?.map((job) => {

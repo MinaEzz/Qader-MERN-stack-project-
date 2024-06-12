@@ -16,7 +16,7 @@ const CartPage = () => {
     if (!cart || !cart?.items) {
       return 0;
     }
-    return cart.items.reduce((total, item) => total + item.quantity, 0);
+    return cart?.items.reduce((total, item) => total + item?.quantity, 0);
   };
   useEffect(() => {
     if (userId) {
@@ -74,8 +74,8 @@ const CartPage = () => {
               {getTotalQuantity(cart)}
             </p>
             <p className="text-lg text-slate-700 dark:text-slate-400 font-semibold">
-              <span className="text-primary-600 font-bold">Total price</span> $
-              {Math.round(cart?.total * 100) / 100}
+              <span className="text-primary-600 font-bold">Total price</span>{" "}
+              EGP {Math.round(cart?.total * 25 * 100) / 100}
             </p>
             <Button
               label={"checkout"}

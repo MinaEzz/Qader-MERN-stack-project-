@@ -7,7 +7,6 @@ const CartItem = ({ item, userId }) => {
   const handleRemove = () => {
     removeFromCart(userId, item?.product?._id);
   };
-  console.log(userId);
   return (
     <li className="w-full bg-white dark:bg-slate-900 p-4 rounded-xl flex max-lg:flex-col flex-row  gap-4 items-center">
       <div className=" w-[240px] max-lg:w-full h-[180px]">
@@ -24,7 +23,9 @@ const CartItem = ({ item, userId }) => {
         <p className=" text-md text-slate-700 dark:text-slate-400">
           {item?.product?.description}
         </p>
-        <p className=" text-lg text-primary-600 ">${item?.price}</p>
+        <p className=" text-lg text-primary-600 ">
+          EGP {Math.round(item?.price * 25 * 100) / 100}
+        </p>
         <p className=" text-lg text-primary-600 ">Quantity: {item?.quantity}</p>
         <Button
           label={"remove"}

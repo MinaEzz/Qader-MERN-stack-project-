@@ -40,16 +40,13 @@ const LoginForm = ({ setOpenModal }) => {
       });
       const responseData = await response.json();
       if (response.ok) {
-        console.log(responseData);
         toast.success("User login successfully");
-        auth.login(responseData.data.user._id, responseData.data.token);
+        auth.login(responseData?.data?.user?._id, responseData?.data?.token);
       } else {
-        console.log(responseData);
-        toast.error(responseData.message);
+        toast.error(responseData?.message);
       }
     } catch (err) {
-      console.log(err);
-      toast.error(err.message || "Something Went Wrong, Please Try Again.");
+      toast.error(err?.message || "Something Went Wrong, Please Try Again.");
     } finally {
       setIsLoading(false);
     }
@@ -78,7 +75,7 @@ const LoginForm = ({ setOpenModal }) => {
               name="identifier"
               placeholder="Username"
               onChange={handleChange}
-              value={formData.identifier}
+              value={formData?.identifier}
               className="w-full h-10 outline-none text-base font-medium text-neutral-600 dark:text-neutral-200 rounded-xl placeholder:text-neutral-600 dark:placeholder:text-neutral-200 py-2 pl-8 pr-10 placeholder:text-base placeholder:font-medium bg-transparent"
             />
           </div>
@@ -93,7 +90,7 @@ const LoginForm = ({ setOpenModal }) => {
               name="password"
               placeholder="Password"
               onChange={handleChange}
-              value={formData.password}
+              value={formData?.password}
               className="w-full h-10 outline-none text-base font-medium text-neutral-600 dark:text-neutral-200 rounded-xl placeholder:text-neutral-600 dark:placeholder:text-neutral-200 py-2 pl-8 pr-10 placeholder:text-base placeholder:font-medium bg-transparent"
             />
           </div>
