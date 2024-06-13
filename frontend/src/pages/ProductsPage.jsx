@@ -26,7 +26,7 @@ const ProductsPage = () => {
       const responseData = await response.json();
       if (response.ok) {
         setProducts(responseData?.data?.products);
-        setCurrentPage(response?.data?.currentPage);
+        setCurrentPage(responseData?.data?.currentPage);
         setTotalPages(responseData?.data?.totalPages);
       } else {
         toast.error(responseData?.message);

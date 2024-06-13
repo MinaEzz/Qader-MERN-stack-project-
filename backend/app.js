@@ -4,7 +4,6 @@ const path = require("path");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
 const cors = require("cors");
-const helmet = require("helmet");
 const usersRouter = require("./routes/users.routes.js");
 const categoriesRouter = require("./routes/categories.routes");
 const productsRouter = require("./routes/products.routes.js");
@@ -31,7 +30,6 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-// app.use(helmet());
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/users", usersRouter);
