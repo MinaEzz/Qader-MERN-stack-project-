@@ -23,7 +23,12 @@ const Navbar = () => {
     >
       <div className="container flex justify-between items-center gap-4">
         <Link to="/" className="w-[80px] h-[75px]">
-          <img src={logo} alt="Qader Website" draggable={false} />
+          <img
+            className="object-contain"
+            src={logo}
+            alt="Qader Website"
+            draggable={false}
+          />
         </Link>
         <button
           className="max-lg:block hidden transition-all ease-in-out"

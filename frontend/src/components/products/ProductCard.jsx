@@ -35,7 +35,11 @@ const ProductCard = ({ ...product }) => {
         </b>
       </div>
       <div className="w-full h-[180px]">
-        <img className="rounded-xl" src={product?.image} alt="product image" />
+        <img
+          className="rounded-xl object-contain"
+          src={product?.image}
+          alt={product?.title}
+        />
       </div>
       <div className="flex flex-col gap-2 justify-center items-center">
         <h4 className="text-center text-xl capitalize font-medium text-primary-600">
