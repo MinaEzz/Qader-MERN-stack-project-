@@ -91,7 +91,7 @@ const CheckoutForm = () => {
           />
         </div>
         <Button
-          label={`pay ${cart?.total}`}
+          label={`pay ${Math.round(cart?.total * 25 * 100) / 100}`}
           icon={<FaCreditCard fontSize={28} color="white" />}
         />
       </form>
