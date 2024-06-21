@@ -28,6 +28,7 @@ import ProfileInfo from "./profile/ProfileInfo";
 import Loader from "./shared/Loader";
 import DeleteAccountModal from "./profile/DeleteAccountModal";
 import CartItem from "./cart/CartItem";
+import CheckoutForm from "./form/CheckoutForm";
 export {
   Header,
   Navbar,
@@ -59,4 +60,6 @@ export {
   Loader,
   DeleteAccountModal,
   CartItem,
+CheckoutForm
+
 };

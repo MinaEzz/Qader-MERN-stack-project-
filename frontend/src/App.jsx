@@ -20,6 +20,7 @@ import {
   CartPage,
 } from "./pages";
 import { useContext, useEffect } from "react";
+import CheckOutPage from "./pages/CheckOutPage";
 
 const App = () => {
   const { token, login } = useContext(AuthContext);
@@ -57,6 +58,7 @@ const App = () => {
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/profile/:userId" element={<UserProfilePage />} />
         <Route path="/cart/:userId" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckOutPage />} />
       </>
     );
   } else {
@@ -82,6 +84,7 @@ const App = () => {
           path="/cart/:userId"
           element={<Navigate to="/authentication" />}
         />
+        <Route path="/checkout" element={<Navigate to="/authentication" />} />
       </>
     );
   }

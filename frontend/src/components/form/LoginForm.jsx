@@ -1,12 +1,12 @@
 import { useState, useContext } from "react";
 import { FaUser, FaLock } from "react-icons/fa";
 import { LuLogIn } from "react-icons/lu";
-import { ToastContainer, toast } from "react-toastify";
 import { AuthContext } from "../../context/auth-context";
 import Loader from "./../shared/Loader";
 import { validateLoginForm } from "../../utils/validation";
-import "react-toastify/dist/ReactToastify.css";
 import { Button } from "..";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { ThemeContext } from "../../context/theme-context";
 const BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 

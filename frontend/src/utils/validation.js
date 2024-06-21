@@ -134,3 +134,15 @@ export const validateContactForm = (formData) => {
 
   return errors.length === 0;
 };
+
+export const validateCheckoutForm = (formData) => {
+  let errors = [];
+
+  if (!formData.cardNumber.trim() || formData.cardNumber.length !== 16) {
+    errors.push("Invalid card number.");
+  }
+
+
+  errors.forEach((error) => toast.error(error));
+  return errors.length === 0;
+}

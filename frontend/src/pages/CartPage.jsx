@@ -11,6 +11,7 @@ const CartPage = () => {
   const { userId } = useContext(AuthContext);
   const { cart, getCart, isLoading } = useContext(CartContext);
   const { isDark } = useContext(ThemeContext);
+  console.log(cart);
 
   const getTotalQuantity = (cart) => {
     if (!cart || !cart?.items) {
@@ -78,6 +79,8 @@ const CartPage = () => {
               EGP {Math.round(cart?.total * 25 * 100) / 100}
             </p>
             <Button
+              type={"button"}
+              to="/checkout"
               label={"checkout"}
               fontSize={"text-xl"}
               icon={<IoBagCheckOutline fontSize={24} />}

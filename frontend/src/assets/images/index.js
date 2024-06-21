@@ -13,6 +13,7 @@ import appxcel from "./sponsers/appxcel.jpg"
 import forasna from "./sponsers/forasna.jpg"
 import qadron from "./sponsers/qadron b-ekhtlaf.jpeg"
 import velva from "./sponsers/velva.jpeg"
+import paymentCard from "./payment-card.png"
 export {
   blueLogo,
   whiteLogo,
@@ -29,4 +30,5 @@ export {
   forasna,
   qadron,
   velva,
+  paymentCard
 };
