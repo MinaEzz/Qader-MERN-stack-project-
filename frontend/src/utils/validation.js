@@ -141,7 +141,12 @@ export const validateCheckoutForm = (formData) => {
   if (!formData.cardNumber.trim() || formData.cardNumber.length !== 16) {
     errors.push("Invalid card number.");
   }
-
+  if (!formData.expiryDate.trim()) {
+    errors.push("Expiry date is required.");
+  }  
+  if (!formData.cvv.trim()) {
+    errors.push("CVV is required.");
+  }
 
   errors.forEach((error) => toast.error(error));
   return errors.length === 0;
